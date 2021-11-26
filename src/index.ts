@@ -4,6 +4,8 @@ import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight"
 import { MeshBuilder } from "@babylonjs/core/Meshes/meshBuilder"
 import { Scene } from "@babylonjs/core/scene"
 import { Vector3 } from "@babylonjs/core/Maths/math.vector"
+import "./assets/themes/dark.scss";
+
 
 import { SampleMaterial } from "./Materials/SampleMaterial"
 

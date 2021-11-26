@@ -1,0 +1,15 @@
+@import './core/functions.scss';
+
+$dark: (
+  borderDark:      color(tronLightBlue),
+  borderLight:     color(tronDarkBlue),
+  textDark:        color(white),
+  textLight:       color(black),
+  backgroundDark:  color(tronLightBlue),
+  backgroundLight: color(tronDarkBlue)
+);
+
+#view {
+  width: 100%;
+  height: 100%;
+}

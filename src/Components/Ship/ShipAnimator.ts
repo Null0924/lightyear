@@ -20,7 +20,6 @@ export class ShipAnimator extends Component {
     }
 
     this.lerpWeight = 0;
-    this.animationSpeed = 0.015;
     this.floatingRange = 0;
     this.floatingFrequency = 0;
     this.animating = false;
@@ -41,7 +40,7 @@ export class ShipAnimator extends Component {
 
   private interpolate() {
 
-    this.lerpWeight += this.animationSpeed;
+    this.lerpWeight += (this.floatingFrequency / 60);
     let newPosition = BABYLON.Vector3.Lerp(this.startingPosition, this.toAnimatePosition, this.lerpWeight);
     (this.object.getComponentByType(MeshComponent) as MeshComponent).get().position = newPosition;
   } 

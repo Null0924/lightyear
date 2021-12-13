@@ -10,6 +10,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.BATTLE_CRUISER, {
     name: SpaceShipName.BATTLE_CRUISER,
@@ -19,6 +20,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.BATTLESHIP, {
     name: SpaceShipName.BATTLESHIP,
@@ -28,6 +30,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.COLONY_SHIP, {
     name: SpaceShipName.COLONY_SHIP,
@@ -37,6 +40,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.CRAWLER, {
     name: SpaceShipName.CRAWLER,
@@ -46,6 +50,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.DEMOLISHER, {
     name: SpaceShipName.DEMOLISHER,
@@ -55,6 +60,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.DESTROYER, {
     name: SpaceShipName.DESTROYER,
@@ -64,6 +70,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.FALCON, {
     name: SpaceShipName.FALCON,
@@ -73,6 +80,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.GALLEON, {
     name: SpaceShipName.GALLEON,
@@ -82,6 +90,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.HEAVY_CARGO, {
     name: SpaceShipName.HEAVY_CARGO,
@@ -91,6 +100,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.HEAVY_CRAFT, {
     name: SpaceShipName.HEAVY_CRAFT,
@@ -100,6 +110,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.HEAVY_FIGHTER, {
     name: SpaceShipName.HEAVY_FIGHTER,
@@ -109,6 +120,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.LIGHT_CARGO, {
     name: SpaceShipName.LIGHT_CARGO,
@@ -118,6 +130,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.LIGHT_CRAFT, {
     name: SpaceShipName.LIGHT_CRAFT,
@@ -127,6 +140,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.LIGHT_FIGHTER, {
     name: SpaceShipName.LIGHT_FIGHTER,
@@ -136,6 +150,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.PLANET_BOMBER, {
     name: SpaceShipName.PLANET_BOMBER,
@@ -145,6 +160,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.REAPER, {
     name: SpaceShipName.REAPER,
@@ -154,6 +170,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.RECYCLER, {
     name: SpaceShipName.RECYCLER,
@@ -163,6 +180,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
   [SpaceShipName.SPACE_STATION, {
     name: SpaceShipName.SPACE_STATION,
@@ -172,6 +190,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: BABYLON.Vector3.Zero(),
+    scale: 200,
   }],
 ]);
 

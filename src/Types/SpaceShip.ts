@@ -8,4 +8,5 @@ export type SpaceShip = {
   laserPosition: BABYLON.Vector3,
   missilePosition: BABYLON.Vector3,
   dronesPosition: BABYLON.Vector3,
+  scale: number,
 }

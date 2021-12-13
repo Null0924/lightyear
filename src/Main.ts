@@ -1,6 +1,6 @@
 import {
   GameObject, World, MeshComponent, DirectionalLightComponent,
-  LightComponent, CameraController, EngineType, ArcRotateCameraController, CubeSkyBoxComponent, GUIContainerComponent
+  LightComponent, CameraController, EngineType, ArcRotateCameraController, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent
 } from "brix";
 import { ShipAnimator } from "./Components/Ship/ShipAnimator";
 import { Config } from "./Config";
@@ -10,7 +10,6 @@ import { SkyboxAnimator } from "./Components/Animators/SkyboxAnimator";
 import { ExplosionParticle } from "./Components/Particles/ExplosionParticle";
 import { WeaponComponent } from "./Components/Ship/WeaponComponent";
 import { AttackData } from "./Types/AttackData";
-import { AttackType } from "./Types/AttackType";
 import { EnvironmentData } from "./Types/EnvironmentData";
 import { GUIComponent } from "./Components/Ship/GUIComponent";
 import { TurnHandlingComponent } from "./Components/World/TurnHandlingComponent";
@@ -64,10 +63,8 @@ export class Main {
     cameraController.position = new BABYLON.Vector3(0, 150, 0);
     cameraController.getCamera().lockedTarget = BABYLON.Vector3.Zero();
 
-    const lightComponent: LightComponent = await this.world.registerComponent(DirectionalLightComponent);
-    lightComponent.direction = new BABYLON.Vector3(0, -1, 0);
-    lightComponent.position = new BABYLON.Vector3(0, 500, 0);
-    lightComponent.intensity = 1.2;
+    const lightComponent: LightComponent = await this.world.registerComponent(HemisphericLightComponent);
+    lightComponent.intensity = 3;
 
     let cubeSkyboxComponent: CubeSkyBoxComponent = await this.world.registerComponent(CubeSkyBoxComponent);
     cubeSkyboxComponent.texturePath = Config.paths.textures + "skybox1/skybox1";
@@ -86,14 +83,13 @@ export class Main {
 
     
     meshComponent.position = new BABYLON.Vector3(environmentData.x, environmentData.y, environmentData.z);
-    meshComponent.get().scaling = new BABYLON.Vector3(200, 200, 200);
+    meshComponent.get().scaling = new BABYLON.Vector3(spaceships.get(environmentData.shipType).scale, spaceships.get(environmentData.shipType).scale, spaceships.get(environmentData.shipType).scale);
 
     const guiComponent: GUIComponent = await spaceShipObject.registerComponent(GUIComponent);
-    // guiComponent.get().getNodeById("name").text = environmentData.shipType;
 
     const shipAnimator: ShipAnimator = await spaceShipObject.registerComponent(ShipAnimator);
     shipAnimator.floatingFrequency = environmentData.frequencyOfFluctuaction;
-    shipAnimator.floatingRange = environmentData.radiusOfFluctuation;
+    shipAnimator.floatingRange = environmentData.radiusOfFluctuation * Config.rangeOfFluctuationMultipler;
     shipAnimator.animating = true;
 
     const engineComponent: EngineComponent =  await spaceShipObject.registerComponent(EngineComponent);
@@ -110,6 +106,7 @@ export class Main {
     await spaceShipObject.registerComponent(RotationInterpolator);
 
     if(environmentData.isMySide) {
+      guiComponent.get().background = "green";
       meshComponent.rotate(BABYLON.Axis.Y, 3.14, BABYLON.Space.LOCAL);
     }
   }

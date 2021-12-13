@@ -3,5 +3,6 @@ export const Config = {
     models: "https://lightyear-game.vercel.app/assets/models/",
     textures: "assets/textures/",
     guiLayouts: "assets/guiLayouts/"
-  }
+  },
+  rangeOfFluctuationMultipler: 10
 }

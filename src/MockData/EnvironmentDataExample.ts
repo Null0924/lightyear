@@ -11,8 +11,8 @@ const environmentDataExample : Array<EnvironmentData> = [
     isMySide: true,
     initialHP: 100,
     maxHP: 100,
-    frequencyOfFluctuaction: 10,
-    radiusOfFluctuation: 5
+    frequencyOfFluctuaction: 2,
+    radiusOfFluctuation: 0.5
   },
   {
     shipId: "2",
@@ -23,8 +23,8 @@ const environmentDataExample : Array<EnvironmentData> = [
     isMySide: true,
     initialHP: 100,
     maxHP: 100,
-    frequencyOfFluctuaction: 2,
-    radiusOfFluctuation: 7
+    frequencyOfFluctuaction: 1,
+    radiusOfFluctuation: 0.7
   },
   {
     shipId: "3",
@@ -35,8 +35,8 @@ const environmentDataExample : Array<EnvironmentData> = [
     isMySide: true,
     initialHP: 100,
     maxHP: 100,
-    frequencyOfFluctuaction: 4,
-    radiusOfFluctuation: 2
+    frequencyOfFluctuaction: 1,
+    radiusOfFluctuation: 0.2
   },
   {
     shipId: "4",
@@ -47,8 +47,8 @@ const environmentDataExample : Array<EnvironmentData> = [
     isMySide: true,
     initialHP: 120,
     maxHP: 120,
-    frequencyOfFluctuaction: 8,
-    radiusOfFluctuation: 3
+    frequencyOfFluctuaction: 1,
+    radiusOfFluctuation: 0.3
   },
   {
     shipId: "5",
@@ -59,8 +59,8 @@ const environmentDataExample : Array<EnvironmentData> = [
     isMySide: false,
     initialHP: 100,
     maxHP: 100,
-    frequencyOfFluctuaction: 12,
-    radiusOfFluctuation: 2
+    frequencyOfFluctuaction: 1,
+    radiusOfFluctuation: 0.2
   },
   {
     shipId: "6",
@@ -71,8 +71,8 @@ const environmentDataExample : Array<EnvironmentData> = [
     isMySide: false,
     initialHP: 100,
     maxHP: 100,
-    frequencyOfFluctuaction: 6,
-    radiusOfFluctuation: 4
+    frequencyOfFluctuaction: 1,
+    radiusOfFluctuation: 0.4
   },
   {
     shipId: "7",
@@ -83,8 +83,8 @@ const environmentDataExample : Array<EnvironmentData> = [
     isMySide: false,
     initialHP: 100,
     maxHP: 100,
-    frequencyOfFluctuaction: 7,
-    radiusOfFluctuation: 5
+    frequencyOfFluctuaction: 1,
+    radiusOfFluctuation: 0.5
   },
   {
     shipId: "8",
@@ -95,8 +95,8 @@ const environmentDataExample : Array<EnvironmentData> = [
     isMySide: false,
     initialHP: 120,
     maxHP: 120,
-    frequencyOfFluctuaction: 20,
-    radiusOfFluctuation: 6
+    frequencyOfFluctuaction: 1,
+    radiusOfFluctuation: 0.6
   },
 ]
 

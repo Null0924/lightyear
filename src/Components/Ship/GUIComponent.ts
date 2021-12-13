@@ -14,9 +14,10 @@ export class GUIComponent extends Component {
     this.gui = new BABYLON.GUI.Rectangle("healthBar");
     this.gui.widthInPixels = 100;
     this.gui.heightInPixels = 8;
-    this.gui.background = "yellow";
+    this.gui.background = "red";
     this.gui.thickness = 0;
     this.gui.cornerRadius = 100;
+    this.gui.alpha = 0.9;
 
     (this.object.getWorld().getComponentByType(GUIContainerComponent) as GUIContainerComponent).getAdvanceTexture().addControl(this.gui as unknown as Control);
 

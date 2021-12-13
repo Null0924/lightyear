@@ -1,39 +1,16 @@
-import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera"
-import { Engine } from "@babylonjs/core/Engines/engine"
-import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight"
-import { MeshBuilder } from "@babylonjs/core/Meshes/meshBuilder"
-import { Scene } from "@babylonjs/core/scene"
-import { Vector3 } from "@babylonjs/core/Maths/math.vector"
-import "./assets/themes/dark.scss";
-
-
-import { SampleMaterial } from "./Materials/SampleMaterial"
+import { Main } from "./Main"
+import attackDataExample from "./MockData/AttackDataExample";
+import environmentDataExample from "./MockData/EnvironmentDataExample";
 
 const view = document.getElementById("view") as HTMLCanvasElement
-const engine = new Engine(view, true)
+let main = new Main(view);
 
-const scene = new Scene(engine)
+function onReady() {
+  document.getElementById("loader").style.display = "none";
+  main.setAttackTurn(attackDataExample);
+}
 
-const camera = new ArcRotateCamera(
-    "camera",
-    Math.PI / 2,
-    Math.PI / 3.2,
-    2,
-    Vector3.Zero(),
-    scene)
-
-camera.attachControl(view)
-
-const light = new HemisphericLight(
-    "light",
-    new Vector3(0, 1, 0),
-    scene)
-
-const mesh = MeshBuilder.CreateGround("mesh", {}, scene)
-
-const material =  new SampleMaterial("material", scene)
-mesh.material = material
-
-engine.runRenderLoop(() => {
-    scene.render();
-})
+(async function() {
+  await main.setup(onReady);
+  await main.setEnvironmentData(environmentDataExample);
+})();

@@ -10,22 +10,22 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".glsl"],
+    fallback: {
+      "fs": false,
+      "tls": false,
+      "net": false,
+      "path": false,
+      "zlib": false,
+      "http": false,
+      "https": false,
+      "stream": false,
+      "crypto": false,
+      "crypto-browserify": false, //if you want to use this module also don't forget npm i crypto-browserify 
+    } 
   },
   module: {
     rules: [
       { test: /\.tsx?$/, loader: "ts-loader" },
-      { test: /\.glsl$/, loader: "webpack-glsl-loader" },
-      {
-        test: /\.s[ac]ss$/i,
-        use: [
-          // Creates `style` nodes from JS strings
-          "style-loader",
-          // Translates CSS into CommonJS
-          "css-loader",
-          // Compiles Sass to CSS
-          "sass-loader",
-        ],
-      },
     ],
   },
   plugins: [
@@ -35,7 +35,7 @@ module.exports = {
         ],
     }),
     new HtmlWebpackPlugin({
-      template: "!!handlebars-loader!src/index.hbs",
+      template: "./src/index.html",
     }),
   ],
 }

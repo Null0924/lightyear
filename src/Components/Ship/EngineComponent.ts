@@ -6,9 +6,6 @@ import { RotationInterpolator } from "./RotationInterpolator";
 
 export class EngineComponent extends Component {
 
-  private animatingAttack: boolean;
-  private animationWeight: number;
-  private animationStep: number;
   public isMySide: boolean;
   public missileName: MissileName;
   public onAttackEndCallback: Function;
@@ -24,7 +21,6 @@ export class EngineComponent extends Component {
     super(gameObject, name);
 
     this.isMySide = false;
-    this.animatingAttack = false;
   }
 
  
@@ -47,22 +43,22 @@ export class EngineComponent extends Component {
 
   public async onHit() {
 
-    let explosionParticle: ExplosionParticle = (this.object.getComponentByType(ExplosionParticle) as ExplosionParticle);
-    explosionParticle.scale = 1;
-    explosionParticle.explode(null);
-
+  
     this.health -= this.nextDamageHit;
     let healthPercentage = this.health / this.maxHealth;
     (this.object.getComponentByType(GUIComponent) as GUIComponent).get().width = (healthPercentage * 100) + "px";
 
     if(this.health <= 0) {
       let explosionParticle: ExplosionParticle = (this.object.getComponentByType(ExplosionParticle) as ExplosionParticle);
-      explosionParticle.scale = 5;
+      explosionParticle.scale = 30;
       explosionParticle.explode(null);
       this.object.dispose();
+    } else {
+      let explosionParticle: ExplosionParticle = (this.object.getComponentByType(ExplosionParticle) as ExplosionParticle);
+      explosionParticle.scale = 15;
+      explosionParticle.explode(null);
     }
   }
-
 
   updateBeforeRender = () => {
   }

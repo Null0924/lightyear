@@ -1,10 +1,12 @@
-import { CameraController, Component, GameObject, MeshComponent } from "brix";
+import { Component, GameObject, MeshComponent } from "brix";
 import { Config } from "../../Config";
 
 export class ExplosionParticle extends Component {
 
   private fireBlast;
   public scale: number;
+  public onAnimationEndCallback: Function;
+  
 
   constructor(object: GameObject, name: string) {
     super(object, name);
@@ -13,23 +15,30 @@ export class ExplosionParticle extends Component {
     this.manualDependencies.push(MeshComponent);
   }
 
+  
   public explode(onAnimationEnd: Function) {
-    let mesh = (this.object.getComponentByType(MeshComponent) as MeshComponent).get().clone();
-    mesh.scaling = new BABYLON.Vector3(this.scale, this.scale, this.scale);
-    this.fireBlast = BABYLON.ParticleHelper.CreateDefault(mesh, 100);
+    
+    // if(!this.emitter) {
+      // this.emitter = (this.object.getComponentByType(MeshComponent) as MeshComponent).position;
+    // }
+    
+    // this.emitter.scaling = new BABYLON.Vector3(this.scale, this.scale, this.scale);
+    this.fireBlast = BABYLON.ParticleHelper.CreateDefault((this.object.getComponentByType(MeshComponent) as MeshComponent).get().position, 100);
     
     // Emitter
-    const fireBlastHemisphere = this.fireBlast.createHemisphericEmitter(.2, 0);
+    const fireBlastHemisphere = this.fireBlast.createHemisphericEmitter(.2 * this.scale, 0);
 
     // Set emission rate
     this.fireBlast.emitRate = 100;
 
     // Start size
-    this.fireBlast.minSize = 6;
+    this.fireBlast.minSize = 6 ;
     this.fireBlast.maxSize = 12;
 
-  
+    this.fireBlast.minEmitBox.scaleInPlace(this.scale);
+    this.fireBlast.maxEmitBox.scaleInPlace(this.scale);
 
+  
     // Lifetime
     this.fireBlast.minLifeTime = 0.5;
     this.fireBlast.maxLifeTime = 1.5;
@@ -48,6 +57,11 @@ export class ExplosionParticle extends Component {
 
     this.fireBlast.limitVelocityDamping = 0.9;
 
+    console.log((this.object.getComponentByType(MeshComponent) as MeshComponent).get().getBoundingInfo().boundingBox);
+
+    // this.fireBlast.minEmitBox = (this.object.getComponentByType(MeshComponent) as MeshComponent).get().getBoundingInfo().boundingBox.minimum.scale(0.00001);
+    // this.fireBlast.maxEmitBox = (this.object.getComponentByType(MeshComponent) as MeshComponent).get().getBoundingInfo().boundingBox.maximum.scale(0.00001);
+    
     // Start rotation
     this.fireBlast.minInitialRotation = -Math.PI / 2;
     this.fireBlast.maxInitialRotation = Math.PI / 2;
@@ -85,14 +99,26 @@ export class ExplosionParticle extends Component {
     this.fireBlast.start(30);
     this.fireBlast.targetStopDuration = .4;
 
-    if(onAnimationEnd) {
-      this.fireBlast.onAnimationEnd = onAnimationEnd;
-    }
+    this.fireBlast.onAnimationEnd = this.particleEnd;
+    
   
     // Animation update speed
     this.fireBlast.updateSpeed = 1/30;   
   }
 
+  particleEnd = () => {
+    
+    this.fireBlast.dispose(true);
+    // this.emitter.dispose();
+    
+    if(this.onAnimationEndCallback) {
+      this.onAnimationEndCallback();
+    }
+  }
+
+  unregister() {
+    super.unregister();
+  }
 
   updateBeforeRender = () => { }
   updateAfterRender = () => { }

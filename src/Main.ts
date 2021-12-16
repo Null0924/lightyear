@@ -107,15 +107,21 @@ export class Main {
     weaponsComponent.laserStartPosition = spaceships.get(environmentData.shipType).laserPosition;
     weaponsComponent.dronesStartPosition = spaceships.get(environmentData.shipType).dronesPosition;
 
-    // const particles: ParticlesComponent = await spaceShipObject.registerComponent(ParticlesComponent);
-    // particles.particlesCapacity = 200;
-    // particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/flame.jpg", this.getWorld().getScene());
-    // particles.minSize = 5;
-    // particles.maxSize = 5;
-    // particles.minEmitBox = new BABYLON.Vector3(0, 0, -8);
-    // particles.maxEmitBox = new BABYLON.Vector3(0, 0, -8);
+    const particles: ParticlesComponent = await spaceShipObject.registerComponent(ParticlesComponent);
+    
+    particles.particlesCapacity = 400;
+    particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/flame.jpg", this.getWorld().getScene());
+    particles.minSize = 0.01;
+    particles.maxSize = 3;
+    particles.minEmitPower = 0.01;
+    particles.maxEmitPower = 0.05;
+    particles.direction1 = new BABYLON.Vector3(0, -0.2, 1.5);
+    particles.direction2 = new BABYLON.Vector3(0, -0.2, 1.5);
+    particles.minEmitBox = spaceships.get(environmentData.shipType).jetFirePosition;
+    particles.maxEmitBox = spaceships.get(environmentData.shipType).jetFirePosition;
 
-    await spaceShipObject.registerComponent(ExplosionParticle);
+    let explosionParticle: ExplosionParticle = await spaceShipObject.registerComponent(ExplosionParticle);
+    explosionParticle.onAnimationEndCallback = null;
     await spaceShipObject.registerComponent(RotationInterpolator);
 
     if(environmentData.isMySide) {

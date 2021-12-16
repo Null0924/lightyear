@@ -1,6 +1,6 @@
 import { Component, GameObject, MeshComponent } from "brix";
+import { DroneWeaponComponent } from "../Ship/DroneWeaponComponent";
 import { EngineComponent } from "../Ship/EngineComponent";
-import { WeaponComponent } from "../Ship/WeaponComponent";
 
 export class DroneComponent extends Component {
 
@@ -64,7 +64,7 @@ export class DroneComponent extends Component {
         if (this.step === 0) {
           this.lerpWeight = 0;
           this.stopPosition = (this.object.getComponentByType(MeshComponent) as MeshComponent).position.clone();
-          (this.object.getComponentByType(WeaponComponent) as WeaponComponent).shootBullet(this.target);
+          (this.object.getComponentByType(DroneWeaponComponent) as DroneWeaponComponent).shootBullet(this.target);
           this.step = 1;
         }
       } else if (this.step === 2 && this.lerpWeight > 1) {

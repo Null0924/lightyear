@@ -41,7 +41,7 @@ export class ProjectileComponent extends Component {
   updateBeforeRender = async () => {
 
     if(this.target && this.initiator ) {
-      if(this.lerpWeight >= 1) {
+      if(this.lerpWeight >= 0.9) {
         this.object.dispose();
 
         debugger;

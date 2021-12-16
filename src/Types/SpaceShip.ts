@@ -1,3 +1,4 @@
+import { MissileName } from "../Data/MissileName";
 import { SpaceShipName } from "../Data/SpaceShipName";
 
 export type SpaceShip = {
@@ -8,5 +9,6 @@ export type SpaceShip = {
   laserPosition: BABYLON.Vector3,
   missilePosition: BABYLON.Vector3,
   dronesPosition: BABYLON.Vector3,
+  missileName: MissileName,
   scale: number,
 }

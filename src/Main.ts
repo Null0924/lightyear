@@ -1,6 +1,6 @@
 import {
   GameObject, World, MeshComponent, DirectionalLightComponent,
-  LightComponent, CameraController, EngineType, ArcRotateCameraController, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent
+  LightComponent, CameraController, EngineType, ParticlesComponent, ArcRotateCameraController, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent
 } from "brix";
 import { ShipAnimator } from "./Components/Ship/ShipAnimator";
 import { Config } from "./Config";
@@ -8,7 +8,7 @@ import spaceships from "./Data/Spaceships";
 import { EngineComponent } from "./Components/Ship/EngineComponent";
 import { SkyboxAnimator } from "./Components/Animators/SkyboxAnimator";
 import { ExplosionParticle } from "./Components/Particles/ExplosionParticle";
-import { WeaponComponent } from "./Components/Ship/WeaponComponent";
+import { ShipWeaponComponent } from "./Components/Ship/ShipWeaponComponent";
 import { AttackData } from "./Types/AttackData";
 import { EnvironmentData } from "./Types/EnvironmentData";
 import { GUIComponent } from "./Components/Ship/GUIComponent";
@@ -62,6 +62,9 @@ export class Main {
     const cameraController: CameraController = await this.world.registerComponent(ArcRotateCameraController);
     cameraController.position = new BABYLON.Vector3(0, 150, 0);
     cameraController.getCamera().lockedTarget = BABYLON.Vector3.Zero();
+    cameraController.getCamera().beta = 0.8;
+    cameraController.getCamera().alpha = 6;
+
 
     const lightComponent: LightComponent = await this.world.registerComponent(HemisphericLightComponent);
     lightComponent.intensity = Config.lightIntensity;
@@ -97,11 +100,20 @@ export class Main {
     engineComponent.health = environmentData.initialHP;
     engineComponent.maxHealth = environmentData.initialHP;
     engineComponent.isMySide = environmentData.isMySide;
+    engineComponent.missileName = spaceships.get(environmentData.shipType).missileName;
 
-    const weaponsComponent: WeaponComponent =  await spaceShipObject.registerComponent(WeaponComponent);
+    const weaponsComponent: ShipWeaponComponent =  await spaceShipObject.registerComponent(ShipWeaponComponent);
     weaponsComponent.missileStartPosition = spaceships.get(environmentData.shipType).missilePosition;
     weaponsComponent.laserStartPosition = spaceships.get(environmentData.shipType).laserPosition;
     weaponsComponent.dronesStartPosition = spaceships.get(environmentData.shipType).dronesPosition;
+
+    // const particles: ParticlesComponent = await spaceShipObject.registerComponent(ParticlesComponent);
+    // particles.particlesCapacity = 200;
+    // particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/flame.jpg", this.getWorld().getScene());
+    // particles.minSize = 5;
+    // particles.maxSize = 5;
+    // particles.minEmitBox = new BABYLON.Vector3(0, 0, -8);
+    // particles.maxEmitBox = new BABYLON.Vector3(0, 0, -8);
 
     await spaceShipObject.registerComponent(ExplosionParticle);
     await spaceShipObject.registerComponent(RotationInterpolator);

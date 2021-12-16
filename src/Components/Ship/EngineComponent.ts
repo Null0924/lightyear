@@ -1,4 +1,5 @@
 import { Component, GameObject, MeshComponent, MeshType, ParticlesComponent, SetShapesComponent, VolumeScatteringPostProcessComponent } from "brix";
+import { MissileName } from "../../Data/MissileName";
 import { ExplosionParticle } from "../Particles/ExplosionParticle";
 import { GUIComponent } from "./GUIComponent";
 import { RotationInterpolator } from "./RotationInterpolator";
@@ -9,6 +10,7 @@ export class EngineComponent extends Component {
   private animationWeight: number;
   private animationStep: number;
   public isMySide: boolean;
+  public missileName: MissileName;
   public onAttackEndCallback: Function;
   // private rotation: number;
 

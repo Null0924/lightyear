@@ -76,7 +76,7 @@ const environmentDataExample : Array<EnvironmentData> = [
   },
   {
     shipId: "7",
-    shipType: SpaceShipName.LIGHT_CRAFT,
+    shipType: SpaceShipName.PLANET_BOMBER,
     x: -30,
     y: 0,
     z: 50,

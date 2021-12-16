@@ -2,7 +2,7 @@ import { Component, GameObject, World } from "brix";
 import { AttackData } from "../../Types/AttackData";
 import { AttackType } from "../../Types/AttackType";
 import { EngineComponent } from "../Ship/EngineComponent";
-import { WeaponComponent } from "../Ship/WeaponComponent";
+import { ShipWeaponComponent } from "../Ship/ShipWeaponComponent";
 
 export class TurnHandlingComponent extends Component {
 
@@ -60,13 +60,13 @@ export class TurnHandlingComponent extends Component {
 
         switch(this.currentTurnMoves[this.currentMoveIndex].attackType) {
           case AttackType.DRONE:
-            await (attackingShip.getComponentByType(WeaponComponent) as WeaponComponent).launchDrones(attackedShip);
+            await (attackingShip.getComponentByType(ShipWeaponComponent) as ShipWeaponComponent).launchDrones(attackedShip);
           break;
           case AttackType.LASER:
-            await (attackingShip.getComponentByType(WeaponComponent) as WeaponComponent).shootLaser(attackedShip);
+            await (attackingShip.getComponentByType(ShipWeaponComponent) as ShipWeaponComponent).shootLaser(attackedShip);
           break;
           case AttackType.MISSILE:
-            await (attackingShip.getComponentByType(WeaponComponent) as WeaponComponent).launchMissile(attackedShip);
+            await (attackingShip.getComponentByType(ShipWeaponComponent) as ShipWeaponComponent).launchMissile(attackedShip);
           break;
         }
         (attackedShip.getComponentByType(EngineComponent) as EngineComponent).nextDamageHit = this.currentTurnMoves[this.currentMoveIndex].damageOnHP;

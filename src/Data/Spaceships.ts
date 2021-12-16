@@ -11,7 +11,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: new BABYLON.Vector3(0, 20, 0),
-    jetFirePosition: new BABYLON.Vector3(0, 0, 0.03),
+    jetFirePosition: new BABYLON.Vector3(0, 0, 0.07),
     missileName: MissileName.MISSILE01,
     scale: 200,
   }],

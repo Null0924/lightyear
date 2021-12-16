@@ -9,7 +9,6 @@ export class EngineComponent extends Component {
   public isMySide: boolean;
   public missileName: MissileName;
   public onAttackEndCallback: Function;
-  // private rotation: number;
 
 
   public health: number;

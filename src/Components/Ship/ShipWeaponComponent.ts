@@ -20,6 +20,10 @@ export class ShipWeaponComponent extends Component {
     this.missileStartPosition = BABYLON.Vector3.Zero();
     this.laserStartPosition = BABYLON.Vector3.Zero();
     this.dronesStartPosition = BABYLON.Vector3.Zero();
+
+    this.manualDependencies.push(MeshComponent);
+    this.manualDependencies.push(EngineComponent);
+    this.manualDependencies.push(RotationInterpolator);
   }
 
   private async createMissile(): Promise<GameObject> {

@@ -12,6 +12,7 @@ export class RotationInterpolator extends Component {
     super(object, name);
 
     this.rotating = false;
+    this.manualDependencies.push(MeshComponent);
   }
 
   public getLookAtRotation(target: BABYLON.Vector3) {

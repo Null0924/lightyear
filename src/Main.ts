@@ -81,6 +81,7 @@ export class Main {
   private async addSpaceship(environmentData: EnvironmentData) {
 
     const spaceShipObject: GameObject = new GameObject(environmentData.shipId, this.world);
+
     const meshComponent: MeshComponent = await spaceShipObject.registerComponent(MeshComponent);
     await meshComponent.loadAsync(Config.paths.models + spaceships.get(environmentData.shipType).path, spaceships.get(environmentData.shipType).fileName);
     meshComponent.get().material.subMaterials[0].albedoTexture = new BABYLON.Texture(Config.paths.models + spaceships.get(environmentData.shipType).path + spaceships.get(environmentData.shipType).textureName, this.world.getScene(), false, false);
@@ -102,6 +103,8 @@ export class Main {
     engineComponent.isMySide = environmentData.isMySide;
     engineComponent.missileName = spaceships.get(environmentData.shipType).missileName;
 
+    await spaceShipObject.registerComponent(RotationInterpolator);
+
     const weaponsComponent: ShipWeaponComponent =  await spaceShipObject.registerComponent(ShipWeaponComponent);
     weaponsComponent.missileStartPosition = spaceships.get(environmentData.shipType).missilePosition;
     weaponsComponent.laserStartPosition = spaceships.get(environmentData.shipType).laserPosition;
@@ -109,8 +112,8 @@ export class Main {
 
     const particles: ParticlesComponent = await spaceShipObject.registerComponent(ParticlesComponent);
     
-    particles.particlesCapacity = 400;
-    particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/flame.jpg", this.getWorld().getScene());
+    particles.particlesCapacity = 200;
+    particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/blue_flame.jpg", this.getWorld().getScene());
     particles.minSize = 0.01;
     particles.maxSize = 3;
     particles.minEmitPower = 0.01;
@@ -120,9 +123,7 @@ export class Main {
     particles.minEmitBox = spaceships.get(environmentData.shipType).jetFirePosition;
     particles.maxEmitBox = spaceships.get(environmentData.shipType).jetFirePosition;
 
-    let explosionParticle: ExplosionParticle = await spaceShipObject.registerComponent(ExplosionParticle);
-    explosionParticle.onAnimationEndCallback = null;
-    await spaceShipObject.registerComponent(RotationInterpolator);
+    await spaceShipObject.registerComponent(ExplosionParticle);
 
     if(environmentData.isMySide) {
       guiComponent.get().background = "green";

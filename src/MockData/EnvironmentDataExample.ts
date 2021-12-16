@@ -88,7 +88,7 @@ const environmentDataExample : Array<EnvironmentData> = [
   },
   {
     shipId: "8",
-    shipType: SpaceShipName.REAPER,
+    shipType: SpaceShipName.RECYCLER,
     x: -60,
     y: 0,
     z: 50,

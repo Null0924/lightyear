@@ -15,9 +15,12 @@ export class RotationInterpolator extends Component {
     this.manualDependencies.push(MeshComponent);
   }
 
-  public getLookAtRotation(target: BABYLON.Vector3) {
+  public getLookAtRotation(target: BABYLON.Vector3, rotateY: boolean = false) {
+
+    let yValue = (rotateY) ? 3.14 : 0;
+
     target = target.subtract((this.object.getComponentByType(MeshComponent) as MeshComponent).position);
-    const newQuart = BABYLON.Quaternion.RotationYawPitchRoll(-Math.atan2(target.z, target.x) - Math.PI / 2, 0, 0);
+    const newQuart = BABYLON.Quaternion.RotationYawPitchRoll(-Math.atan2(target.z, target.x) - Math.PI / 2, yValue, 0);
     return newQuart;
   }
 

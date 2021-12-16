@@ -1,5 +1,5 @@
 import {
-  GameObject, World, MeshComponent, DirectionalLightComponent,
+  GameObject, World, MeshComponent,
   LightComponent, CameraController, EngineType, ParticlesComponent, ArcRotateCameraController, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent
 } from "brix";
 import { ShipAnimator } from "./Components/Ship/ShipAnimator";
@@ -21,15 +21,10 @@ export class Main {
   private view;
   private started;
   private onReady: Function;
-  private currentTurnMoves: Array<AttackData>;
-  private currentMove: number;
-  private attackInterval: any;
 
   constructor(view) {
     this.view = view;
     this.started = false;
-    this.currentTurnMoves = [];
-    this.currentMove = 0;
   }
 
   public getWorld(): World {
@@ -118,17 +113,18 @@ export class Main {
     particles.maxSize = 3;
     particles.minEmitPower = 0.01;
     particles.maxEmitPower = 0.05;
-    particles.direction1 = new BABYLON.Vector3(0, -0.2, 1.5);
-    particles.direction2 = new BABYLON.Vector3(0, -0.2, 1.5);
+    particles.direction1 = new BABYLON.Vector3(0, -0.2, -1.5);
+    particles.direction2 = new BABYLON.Vector3(0, -0.2, -1.5);
     particles.minEmitBox = spaceships.get(environmentData.shipType).jetFirePosition;
     particles.maxEmitBox = spaceships.get(environmentData.shipType).jetFirePosition;
 
     await spaceShipObject.registerComponent(ExplosionParticle);
 
-    if(environmentData.isMySide) {
+    if(!environmentData.isMySide) {
       guiComponent.get().background = "green";
       meshComponent.rotate(BABYLON.Axis.Y, 3.14, BABYLON.Space.LOCAL);
     }
+    
   }
 
   public setEnvironmentData = async (environmentDataList: Array<EnvironmentData>) => {

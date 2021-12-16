@@ -30,7 +30,7 @@ export class ProjectileComponent extends Component {
     let newPosition = BABYLON.Vector3.Lerp(this.startingPosition, (this.target.getComponentByType(MeshComponent) as MeshComponent).position, this.lerpWeight);
     
     if((this.object.getComponentByType(MeshComponent) as MeshComponent).rotationQuaternion && this.rotate) {
-      (this.object.getComponentByType(MeshComponent) as MeshComponent).rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll((this.initiator.getComponentByType(MeshComponent) as MeshComponent).rotationQuaternion.toEulerAngles().y, 1.57, 3.14);
+      (this.object.getComponentByType(MeshComponent) as MeshComponent).rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll((this.initiator.getComponentByType(MeshComponent) as MeshComponent).rotationQuaternion.toEulerAngles().y, 1.57, 0);
 
     }
 

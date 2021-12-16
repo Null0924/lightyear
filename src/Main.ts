@@ -64,14 +64,15 @@ export class Main {
     cameraController.getCamera().lockedTarget = BABYLON.Vector3.Zero();
 
     const lightComponent: LightComponent = await this.world.registerComponent(HemisphericLightComponent);
-    lightComponent.intensity = 3;
+    lightComponent.intensity = Config.lightIntensity;
 
     let cubeSkyboxComponent: CubeSkyBoxComponent = await this.world.registerComponent(CubeSkyBoxComponent);
     cubeSkyboxComponent.texturePath = Config.paths.textures + "skybox1/skybox1";
 
     await this.world.registerComponent(GUIContainerComponent);
     await this.world.registerComponent(SkyboxAnimator);
-    await this.world.registerComponent(TurnHandlingComponent);
+    const turnHandlingComponent: TurnHandlingComponent = await this.world.registerComponent(TurnHandlingComponent);
+    turnHandlingComponent.maxWaitTimer = Config.attackDelayTime;
   }
 
   private async addSpaceship(environmentData: EnvironmentData) {

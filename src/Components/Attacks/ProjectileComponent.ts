@@ -1,5 +1,6 @@
 import { Component, GameObject, MeshComponent } from "brix";
 import { EngineComponent } from "../Ship/EngineComponent";
+import { DroneComponent } from "./DroneComponent";
 
 export class ProjectileComponent extends Component {
 
@@ -29,7 +30,7 @@ export class ProjectileComponent extends Component {
     let newPosition = BABYLON.Vector3.Lerp(this.startingPosition, (this.target.getComponentByType(MeshComponent) as MeshComponent).position, this.lerpWeight);
     
     if((this.object.getComponentByType(MeshComponent) as MeshComponent).rotationQuaternion && this.rotate) {
-      (this.object.getComponentByType(MeshComponent) as MeshComponent).rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll((this.initiator.getComponentByType(MeshComponent) as MeshComponent).rotationQuaternion.toEulerAngles().y, 1.57, 0);
+      (this.object.getComponentByType(MeshComponent) as MeshComponent).rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll((this.initiator.getComponentByType(MeshComponent) as MeshComponent).rotationQuaternion.toEulerAngles().y, 1.57, 3.14);
 
     }
 
@@ -42,11 +43,11 @@ export class ProjectileComponent extends Component {
     if(this.target && this.initiator ) {
       if(this.lerpWeight >= 1) {
         this.object.dispose();
-        if(this.doneCallback) {
-          this.doneCallback();
-        }
 
-        await (this.initiator.getComponentByType(EngineComponent) as EngineComponent).onAttackDone();
+        debugger;
+        if(this.doneCallback) {
+          await this.doneCallback();
+        }
         await (this.target.getComponentByType(EngineComponent) as EngineComponent).onHit();
         
         return;

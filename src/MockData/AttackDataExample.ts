@@ -9,7 +9,7 @@ const attackDataExample: Array<AttackData> = [
     damageOnHP: 10
   },
   {
-    attackType: AttackType.MISSILE,
+    attackType: AttackType.DRONE,
     fromShipId: "2",
     toShipId: "6",
     damageOnHP: 12
@@ -27,7 +27,7 @@ const attackDataExample: Array<AttackData> = [
     damageOnHP: 180
   },
   {
-    attackType: AttackType.MISSILE,
+    attackType: AttackType.DRONE,
     fromShipId: "5",
     toShipId: "2",
     damageOnHP: 100

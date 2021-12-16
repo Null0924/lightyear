@@ -26,7 +26,7 @@ export class EngineComponent extends Component {
   }
 
  
-  public async onAttackDone() {
+  public onAttackDone = async() => {
 
     if(!this.object.getComponentByType(RotationInterpolator)) {
       return;
@@ -59,12 +59,6 @@ export class EngineComponent extends Component {
       explosionParticle.explode(null);
       this.object.dispose();
     }
-  }
-
-  public getLookAtRotation(target: BABYLON.Vector3) {
-    target = target.subtract((this.object.getComponentByType(MeshComponent) as MeshComponent).position);
-    const newQuart = BABYLON.Quaternion.RotationYawPitchRoll(-Math.atan2(target.z, target.x) - Math.PI / 2, 0, 0);
-    return newQuart;
   }
 
 

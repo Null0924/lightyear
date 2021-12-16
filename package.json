@@ -21,6 +21,6 @@
     "webpack-merge": "^5.7.3"
   },
   "dependencies": {
-    "brix": "../Engine/dist"
+    "brix": "../Brix/Engine/dist"
   }
 }

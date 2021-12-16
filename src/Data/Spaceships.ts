@@ -9,7 +9,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Asteroid_Miner_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.BATTLE_CRUISER, {
@@ -19,7 +19,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Battle_Cruiser_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.BATTLESHIP, {
@@ -29,7 +29,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Battleship_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.COLONY_SHIP, {
@@ -39,7 +39,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Colony_Ship_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.CRAWLER, {
@@ -49,7 +49,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Crawler_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.DEMOLISHER, {
@@ -59,7 +59,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Demolisher_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.DESTROYER, {
@@ -69,7 +69,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Destroyer_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.FALCON, {
@@ -79,7 +79,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Falcon_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.GALLEON, {
@@ -89,7 +89,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Galleon_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.HEAVY_CARGO, {
@@ -99,7 +99,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Heavy_Cargo_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.HEAVY_CRAFT, {
@@ -109,7 +109,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Heavy_Craft_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.HEAVY_FIGHTER, {
@@ -119,7 +119,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Heavy_Fighter_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.LIGHT_CARGO, {
@@ -129,7 +129,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Light_Cargo_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.LIGHT_CRAFT, {
@@ -139,7 +139,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Light_Craft_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.LIGHT_FIGHTER, {
@@ -149,7 +149,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Light_Fighter_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.PLANET_BOMBER, {
@@ -159,7 +159,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Planet_Bomber_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.REAPER, {
@@ -169,7 +169,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Reaper_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.RECYCLER, {
@@ -179,7 +179,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Recycler_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
   [SpaceShipName.SPACE_STATION, {
@@ -189,7 +189,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     textureName:"Space_Station_BaseColor.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
-    dronesPosition: BABYLON.Vector3.Zero(),
+    dronesPosition: new BABYLON.Vector3(0, 20, 0),
     scale: 200,
   }],
 ]);

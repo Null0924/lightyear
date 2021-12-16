@@ -1,8 +1,10 @@
 import { Component, GameObject, MeshComponent, MeshType, ParticlesComponent, SetShapesComponent, VolumeScatteringPostProcessComponent } from "brix";
 import { Config } from "../../Config";
 import { ProjectileComponent } from "../Attacks/ProjectileComponent";
+import { DroneComponent } from "../Attacks/DroneComponent";
 import { EngineComponent } from "./EngineComponent";
 import { RotationInterpolator } from "./RotationInterpolator";
+import { MissileName } from "../../Data/MissileName";
 
 
 export class WeaponComponent extends Component {
@@ -22,21 +24,75 @@ export class WeaponComponent extends Component {
   private async createMissile(): Promise<GameObject> {
     const missileObject = new GameObject("missile", this.object.getWorld());
 
-    const setShapes: SetShapesComponent = await missileObject.registerComponent(SetShapesComponent);
-    setShapes.meshType = MeshType.BOX;
+    const meshComponent: MeshComponent = await missileObject.registerComponent(MeshComponent);
+    await meshComponent.loadAsync(Config.paths.missiles, MissileName.MISSILE01);
+    meshComponent.get().material.subMaterials[0].albedoTexture = new BABYLON.Texture(Config.paths.missiles + MissileName.MISSILE_TEXTURE, this.object.getWorld().getScene(), false, false);
 
-    let meshComponent: MeshComponent = (missileObject.getComponentByType(MeshComponent) as MeshComponent);
-    meshComponent.get().visibility = 0;
     meshComponent.get().scaling = new BABYLON.Vector3(10, 10, 10);
     meshComponent.get().position = (this.object.getComponentByType(MeshComponent) as MeshComponent).position.add(this.missileStartPosition.clone());
+    meshComponent.get().rotate(BABYLON.Axis.X, 1.57, BABYLON.Space.LOCAL);
+
+    if((this.object.getComponentByType(EngineComponent) as EngineComponent).isMySide) {
+      meshComponent.get().rotate(BABYLON.Axis.Z, 3.14, BABYLON.Space.LOCAL);
+    }
 
     const particles: ParticlesComponent = await missileObject.registerComponent(ParticlesComponent);
     particles.particlesCapacity = 200;
     particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/flame.jpg", this.object.getWorld().getScene());
+    particles.minSize = 3;
+    particles.maxSize = 3;
 
     await missileObject.registerComponent(ProjectileComponent);
 
     return missileObject;
+  }
+
+  private async createBullet(): Promise<GameObject> {
+    const bulletObject = new GameObject("bullet", this.object.getWorld());
+
+    const setShapes: SetShapesComponent = await bulletObject.registerComponent(SetShapesComponent);
+    setShapes.meshType = MeshType.BOX;
+
+    let meshComponent: MeshComponent = (bulletObject.getComponentByType(MeshComponent) as MeshComponent);
+    meshComponent.get().visibility = 0;
+    meshComponent.get().scaling = new BABYLON.Vector3(10, 10, 10);
+    meshComponent.get().position = (this.object.getComponentByType(MeshComponent) as MeshComponent).position.clone();
+
+    const particles: ParticlesComponent = await bulletObject.registerComponent(ParticlesComponent);
+    particles.particlesCapacity = 200;
+    particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/flame.jpg", this.object.getWorld().getScene());
+
+    await bulletObject.registerComponent(ProjectileComponent);
+
+    return bulletObject;
+  }
+
+  private async createDrone(): Promise<GameObject> {
+    const droneObject = new GameObject("drone", this.object.getWorld());
+
+    const meshComponent: MeshComponent = await droneObject.registerComponent(MeshComponent);
+
+    this.object.getWorld().stop();
+    await meshComponent.loadAsync(Config.paths.missiles, MissileName.DRONE);
+    meshComponent.get().isVisible = 0;
+    this.object.getWorld().start();
+
+    meshComponent.get().material.subMaterials[0].albedoTexture = new BABYLON.Texture(Config.paths.missiles + MissileName.MISSILE_TEXTURE, this.object.getWorld().getScene(), false, false);
+    meshComponent.get().scaling = new BABYLON.Vector3(2, 2, 2);
+    meshComponent.get().position = (this.object.getComponentByType(MeshComponent) as MeshComponent).position.add(this.dronesStartPosition.clone());
+
+    meshComponent.get().isVisible = 1;
+
+
+    await droneObject.registerComponent(DroneComponent);
+    await droneObject.registerComponent(RotationInterpolator);
+
+    let weaponsComponent: WeaponComponent = await droneObject.registerComponent(WeaponComponent);
+    weaponsComponent.missileStartPosition = BABYLON.Vector3.Zero();
+    weaponsComponent.laserStartPosition = BABYLON.Vector3.Zero();
+    weaponsComponent.dronesStartPosition = BABYLON.Vector3.Zero();
+
+    return droneObject;
   }
 
   private async createLaser(): Promise<GameObject> {
@@ -60,42 +116,74 @@ export class WeaponComponent extends Component {
 
   public async launchMissile(target: GameObject) {
 
-    (this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).startRotation((this.object.getComponentByType(EngineComponent) as EngineComponent).getLookAtRotation((target.getComponentByType(MeshComponent) as MeshComponent).position));
+    (this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).startRotation((this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).getLookAtRotation((target.getComponentByType(MeshComponent) as MeshComponent).position));
 
     const missileObject = await this.createMissile();
 
     const projectileComponent: ProjectileComponent = (missileObject.getComponentByType(ProjectileComponent) as ProjectileComponent);
-    projectileComponent.animationSpeed = 0.01;
-    projectileComponent.doneCallback = (this.object.getComponentByType(EngineComponent) as EngineComponent).onAttackDone;
+    projectileComponent.animationSpeed = 0.02;
+    
+    if(this.object.getComponentByType(EngineComponent)) {
+      projectileComponent.doneCallback = (this.object.getComponentByType(EngineComponent) as EngineComponent).onAttackDone;
+    } else {
+      projectileComponent.doneCallback = (this.object.getComponentByType(DroneComponent) as DroneComponent).onAttackDone;
+    }
+    
     projectileComponent.target = target;
     projectileComponent.initiator = this.object;
-    projectileComponent.rotate = false;
+    projectileComponent.rotate = true;
   }
 
 
   public async launchDrones(target: GameObject) {
 
-    (this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).startRotation((this.object.getComponentByType(EngineComponent) as EngineComponent).getLookAtRotation((target.getComponentByType(MeshComponent) as MeshComponent).position));
+    (this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).startRotation((this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).getLookAtRotation((target.getComponentByType(MeshComponent) as MeshComponent).position));
 
-    const missileObject = await this.createMissile();
+    const droneObject = await this.createDrone();
 
-    const projectileComponent: ProjectileComponent = (missileObject.getComponentByType(ProjectileComponent) as ProjectileComponent);
-    projectileComponent.animationSpeed = 0.01;
-    projectileComponent.target = target;
-    projectileComponent.initiator = this.object;
+    const droneComponent: DroneComponent = (droneObject.getComponentByType(DroneComponent) as DroneComponent);
+    droneComponent.animationSpeed = 0.01;
+    droneComponent.target = target;
+    droneComponent.initiator = this.object;
   }
 
+  public async shootBullet(target: GameObject) {
+
+    (this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).startRotation((this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).getLookAtRotation((target.getComponentByType(MeshComponent) as MeshComponent).position));
+
+    const missileObject = await this.createBullet();
+
+    const projectileComponent: ProjectileComponent = (missileObject.getComponentByType(ProjectileComponent) as ProjectileComponent);
+    projectileComponent.animationSpeed = 0.1;
+    
+    if(this.object.getComponentByType(EngineComponent)) {
+      projectileComponent.doneCallback = (this.object.getComponentByType(EngineComponent) as EngineComponent).onAttackDone;
+    } else {
+      projectileComponent.doneCallback = (this.object.getComponentByType(DroneComponent) as DroneComponent).onAttackDone;
+    }
+    
+    projectileComponent.target = target;
+    projectileComponent.initiator = this.object;
+    projectileComponent.rotate = false;
+  }
 
   public async shootLaser(target: GameObject) {
 
-    (this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).startRotation((this.object.getComponentByType(EngineComponent) as EngineComponent).getLookAtRotation((target.getComponentByType(MeshComponent) as MeshComponent).position));
+    (this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).startRotation((this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).getLookAtRotation((target.getComponentByType(MeshComponent) as MeshComponent).position));
 
 
     const laserObject = await this.createLaser();
 
     const projectileComponent: ProjectileComponent = (laserObject.getComponentByType(ProjectileComponent) as ProjectileComponent);
     projectileComponent.animationSpeed = 0.05;
-    projectileComponent.doneCallback = (this.object.getComponentByType(EngineComponent) as EngineComponent).onAttackDone;
+    
+    debugger;
+    if(this.object.getComponentByType(EngineComponent)) {
+      projectileComponent.doneCallback = (this.object.getComponentByType(EngineComponent) as EngineComponent).onAttackDone;
+    } else {
+      projectileComponent.doneCallback = (this.object.getComponentByType(DroneComponent) as DroneComponent).onAttackDone;
+    }
+    
     projectileComponent.target = target;
     projectileComponent.initiator = this.object;
     projectileComponent.rotate = true;

@@ -11,7 +11,7 @@ export class TurnHandlingComponent extends Component {
   private started: boolean;
   private attackOnGoing: boolean;
   private currentTimer: number;
-  private maxWaitTimer: number;
+  public maxWaitTimer: number;
 
   constructor(object: GameObject, name: string) {
     super(object, name);
@@ -33,7 +33,7 @@ export class TurnHandlingComponent extends Component {
     this.attackOnGoing = false;
   }
 
-  updateBeforeRender = () => {
+  updateBeforeRender = async () => {
     if(this.started) {
       if(!this.attackOnGoing) {
 
@@ -56,21 +56,22 @@ export class TurnHandlingComponent extends Component {
           return;
         }
 
+        this.attackOnGoing = true;
+
         switch(this.currentTurnMoves[this.currentMoveIndex].attackType) {
           case AttackType.DRONE:
-            (attackingShip.getComponentByType(WeaponComponent) as WeaponComponent).launchDrones(attackedShip);
+            await (attackingShip.getComponentByType(WeaponComponent) as WeaponComponent).launchDrones(attackedShip);
           break;
           case AttackType.LASER:
-            (attackingShip.getComponentByType(WeaponComponent) as WeaponComponent).shootLaser(attackedShip);
+            await (attackingShip.getComponentByType(WeaponComponent) as WeaponComponent).shootLaser(attackedShip);
           break;
           case AttackType.MISSILE:
-            (attackingShip.getComponentByType(WeaponComponent) as WeaponComponent).launchMissile(attackedShip);
+            await (attackingShip.getComponentByType(WeaponComponent) as WeaponComponent).launchMissile(attackedShip);
           break;
         }
         (attackedShip.getComponentByType(EngineComponent) as EngineComponent).nextDamageHit = this.currentTurnMoves[this.currentMoveIndex].damageOnHP;
         (attackingShip.getComponentByType(EngineComponent) as EngineComponent).onAttackEndCallback = this.onShipAttackEnd;
         this.currentMoveIndex += 1;
-        this.attackOnGoing = true;
         this.currentTimer = 0;
       }
     }

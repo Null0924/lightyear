@@ -1,4 +1,4 @@
-import { SpaceShipName } from "../Data/SpaceShipName";
+import { SpaceShipName } from "../Configs/SpaceShipName";
 import { EnvironmentData } from "../Types/EnvironmentData";
 
 const environmentDataExample : Array<EnvironmentData> = [

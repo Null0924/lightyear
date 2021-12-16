@@ -1,5 +1,5 @@
 import { Component, GameObject, MeshComponent, MeshType, ParticlesComponent, SetShapesComponent, VolumeScatteringPostProcessComponent } from "brix";
-import { MissileName } from "../../Data/MissileName";
+import { MissileName } from "../../Configs/MissileName";
 import { ExplosionParticle } from "../Particles/ExplosionParticle";
 import { GUIComponent } from "./GUIComponent";
 import { RotationInterpolator } from "./RotationInterpolator";

@@ -4,7 +4,7 @@ import {
 } from "brix";
 import { ShipAnimator } from "./Components/Ship/ShipAnimator";
 import { Config } from "./Config";
-import spaceships from "./Data/Spaceships";
+import spaceships from "./Configs/Spaceships";
 import { EngineComponent } from "./Components/Ship/EngineComponent";
 import { SkyboxAnimator } from "./Components/Animators/SkyboxAnimator";
 import { ExplosionParticle } from "./Components/Particles/ExplosionParticle";
@@ -57,7 +57,7 @@ export class Main {
     this.view.blur();
     
     this.world = new World(this.view, EngineType.STANDARD, onReady);
-    await this.world.init(true);
+    await this.world.init(true, true);
 
     const cameraController: CameraController = await this.world.registerComponent(ArcRotateCameraController);
     cameraController.position = new BABYLON.Vector3(0, 150, 0);

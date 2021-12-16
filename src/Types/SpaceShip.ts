@@ -1,5 +1,5 @@
-import { MissileName } from "../Data/MissileName";
-import { SpaceShipName } from "../Data/SpaceShipName";
+import { MissileName } from "../Configs/MissileName";
+import { SpaceShipName } from "../Configs/SpaceShipName";
 
 export type SpaceShip = {
   name: SpaceShipName,

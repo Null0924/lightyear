@@ -4,7 +4,7 @@ import { ProjectileComponent } from "../Attacks/ProjectileComponent";
 import { DroneComponent } from "../Attacks/DroneComponent";
 import { EngineComponent } from "./EngineComponent";
 import { RotationInterpolator } from "./RotationInterpolator";
-import { MissileName } from "../../Data/MissileName";
+import { MissileName } from "../../Configs/MissileName";
 
 
 export class DroneWeaponComponent extends Component {

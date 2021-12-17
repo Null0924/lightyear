@@ -14,9 +14,13 @@ function onReady() {
   main.setAttackTurn(attackDataExample);
 }
 
+window["onAttack"] = function(attackData) {
+  main.setAttackTurn(attackData);
+}
+
 window.onmessage = function(event) {
   console.log(event);
-  main.setAttackTurn(event.data);
+  // main.setAttackTurn(event.data);
 };
 
 (async function() {

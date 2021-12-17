@@ -6,7 +6,8 @@ import { ShipWeaponComponent } from "../Ship/ShipWeaponComponent";
 
 export class TurnHandlingComponent extends Component {
 
-  private currentTurnMoves: Array<AttackData>
+  private allTurnMoves: Array<Array<AttackData>>;
+  private currentTurnMoves: Array<AttackData>;
   private currentMoveIndex: number;
   private started: boolean;
   private attackOnGoing: boolean;
@@ -16,6 +17,7 @@ export class TurnHandlingComponent extends Component {
   constructor(object: GameObject, name: string) {
     super(object, name);
 
+    this.allTurnMoves = [];
     this.currentTurnMoves = [];
     this.currentMoveIndex = 0;
     this.started = false;
@@ -25,7 +27,7 @@ export class TurnHandlingComponent extends Component {
   }
 
   public setTurnData(attackTurnData: Array<AttackData>) {
-    this.currentTurnMoves = attackTurnData;
+    this.allTurnMoves.push(attackTurnData);
     this.started = true;
   }
 
@@ -42,16 +44,23 @@ export class TurnHandlingComponent extends Component {
           return;
         }
 
-        if(this.currentMoveIndex > this.currentTurnMoves.length - 1) {
+        if(this.allTurnMoves.length > 0 && this.currentMoveIndex === 0) {
+          this.currentTurnMoves = this.allTurnMoves.shift();
+        } else if(this.allTurnMoves.length === 0 && this.currentTurnMoves.length - 1 === this.currentMoveIndex){
           this.started = false;
           this.attackOnGoing = false;
+          return;
+        }
+
+        if(this.currentMoveIndex > this.currentTurnMoves.length - 1) {
+          this.currentMoveIndex = 0;
           return;
         }
 
         const attackingShip: GameObject = (this.object as unknown as World).getObjectByName(this.currentTurnMoves[this.currentMoveIndex].fromShipId);
         const attackedShip: GameObject = (this.object as unknown as World).getObjectByName(this.currentTurnMoves[this.currentMoveIndex].toShipId);
 
-        if(!attackingShip || !attackingShip) {
+        if(!attackingShip || !attackedShip) {
           this.currentMoveIndex += 1;
           return;
         }

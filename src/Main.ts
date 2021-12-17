@@ -121,7 +121,7 @@ export class Main {
     await spaceShipObject.registerComponent(ExplosionParticle);
 
     if(!environmentData.isMySide) {
-      guiComponent.get().background = "green";
+      guiComponent.get().background = "red";
       meshComponent.rotate(BABYLON.Axis.Y, 3.14, BABYLON.Space.LOCAL);
     }
     

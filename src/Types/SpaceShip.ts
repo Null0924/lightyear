@@ -10,6 +10,8 @@ export type SpaceShip = {
   missilePosition: BABYLON.Vector3,
   dronesPosition: BABYLON.Vector3,
   jetFirePosition: BABYLON.Vector3,
+  jetFirePosition2: BABYLON.Vector3 | null,
+  jetFirePosition3: BABYLON.Vector3 | null,
   missileName: MissileName,
   scale: number,
 }

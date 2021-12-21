@@ -1,6 +1,6 @@
 import {
   GameObject, World, MeshComponent,
-  LightComponent, CameraController, EngineType, ParticlesComponent, ArcRotateCameraController, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent
+  LightComponent, CameraController, EngineType, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent
 } from "brix";
 import { ShipAnimator } from "./Components/Ship/ShipAnimator";
 import { Config } from "./Config";
@@ -14,6 +14,8 @@ import { EnvironmentData } from "./Types/EnvironmentData";
 import { GUIComponent } from "./Components/Ship/GUIComponent";
 import { TurnHandlingComponent } from "./Components/World/TurnHandlingComponent";
 import { RotationInterpolator } from "./Components/Ship/RotationInterpolator";
+import { WaitData } from "./Types/WaitData";
+import { CameraData } from "./Types/CameraData";
 
 
 export class Main {
@@ -71,6 +73,8 @@ export class Main {
     await this.world.registerComponent(SkyboxAnimator);
     const turnHandlingComponent: TurnHandlingComponent = await this.world.registerComponent(TurnHandlingComponent);
     turnHandlingComponent.maxWaitTimer = Config.attackDelayTime;
+
+    await this.world.registerComponent(HighlightLayerComponent);
   }
 
   private async addSpaceship(environmentData: EnvironmentData) {
@@ -105,9 +109,29 @@ export class Main {
     weaponsComponent.laserStartPosition = spaceships.get(environmentData.shipType).laserPosition;
     weaponsComponent.dronesStartPosition = spaceships.get(environmentData.shipType).dronesPosition;
 
-    const particles: ParticlesComponent = await spaceShipObject.registerComponent(ParticlesComponent);
+    await spaceShipObject.registerComponent(ExplosionParticle);
+
+    await this.addShipJetFire(spaceShipObject, spaceships.get(environmentData.shipType).jetFirePosition);
+
+    if(spaceships.get(environmentData.shipType).jetFirePosition2) {
+      await this.addShipJetFire(spaceShipObject, spaceships.get(environmentData.shipType).jetFirePosition2);
+    }
+
+    if(spaceships.get(environmentData.shipType).jetFirePosition3) {
+      await this.addShipJetFire(spaceShipObject, spaceships.get(environmentData.shipType).jetFirePosition3);
+    }
+
+    if(!environmentData.isMySide) {
+      guiComponent.get().background = "red";
+      meshComponent.rotate(BABYLON.Axis.Y, 3.14, BABYLON.Space.LOCAL);
+    }
     
-    particles.particlesCapacity = 200;
+  }
+
+  public async addShipJetFire(spaceShipObject : GameObject, emitPosition: BABYLON.Vector3) {
+    const particles: ParticlesComponent = await spaceShipObject.registerComponent(ParticlesComponent);
+  
+    particles.particlesCapacity = 50;
     particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/blue_flame.jpg", this.getWorld().getScene());
     particles.minSize = 0.01;
     particles.maxSize = 3;
@@ -115,16 +139,8 @@ export class Main {
     particles.maxEmitPower = 0.05;
     particles.direction1 = new BABYLON.Vector3(0, -0.2, -1.5);
     particles.direction2 = new BABYLON.Vector3(0, -0.2, -1.5);
-    particles.minEmitBox = spaceships.get(environmentData.shipType).jetFirePosition;
-    particles.maxEmitBox = spaceships.get(environmentData.shipType).jetFirePosition;
-
-    await spaceShipObject.registerComponent(ExplosionParticle);
-
-    if(!environmentData.isMySide) {
-      guiComponent.get().background = "red";
-      meshComponent.rotate(BABYLON.Axis.Y, 3.14, BABYLON.Space.LOCAL);
-    }
-    
+    particles.minEmitBox = emitPosition; 
+    particles.maxEmitBox = emitPosition;
   }
 
   public setEnvironmentData = async (environmentDataList: Array<EnvironmentData>) => {
@@ -136,7 +152,7 @@ export class Main {
     this.onReady();
   }
 
-  public setAttackTurn = async ( attackTurnData: Array<AttackData>) => {
+  public setAttackTurn = async ( attackTurnData: Array<WaitData | CameraData | AttackData>) => {
    (this.world.getComponentByType(TurnHandlingComponent) as TurnHandlingComponent).setTurnData(attackTurnData);
   }
 }

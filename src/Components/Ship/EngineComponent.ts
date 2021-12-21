@@ -1,4 +1,4 @@
-import { Component, GameObject, MeshComponent, MeshType, ParticlesComponent, SetShapesComponent, VolumeScatteringPostProcessComponent } from "brix";
+import { Component, GameObject, MeshComponent, HighlightLayerComponent, ParticlesComponent, SetShapesComponent, VolumeScatteringPostProcessComponent } from "brix";
 import { MissileName } from "../../Configs/MissileName";
 import { ExplosionParticle } from "../Particles/ExplosionParticle";
 import { GUIComponent } from "./GUIComponent";
@@ -21,7 +21,6 @@ export class EngineComponent extends Component {
 
     this.isMySide = false;
   }
-
  
   public onAttackDone = async() => {
 
@@ -29,7 +28,6 @@ export class EngineComponent extends Component {
       return;
     } 
 
-    debugger;
     (this.object.getComponentByType(RotationInterpolator) as RotationInterpolator).startRotation(BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 3.14));
 
     if(this.isMySide) {

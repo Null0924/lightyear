@@ -44,7 +44,6 @@ export class ProjectileComponent extends Component {
       if(this.lerpWeight >= 0.9) {
         this.object.dispose();
 
-        debugger;
         if(this.doneCallback) {
           await this.doneCallback();
         }

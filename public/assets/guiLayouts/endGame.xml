@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<root>
+    <Rectangle id="endGameModal" isVisible="false" background="#001118dd" height="500px" width="500px" color="#4B6975" thickness="1" zIndex = "3" >
+          <TextBlock  horizontalAlignment="Control.HORIZONTAL_ALIGNMENT_CENTER" verticalAlignment="Control.VERTICAL_ALIGNMENT_CENTER" id="text" height="1" text="YOU WON!"  color="white" resizeToFit="true" fontSize="50"/>
+    </Rectangle>
+</root>

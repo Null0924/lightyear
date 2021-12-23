@@ -1,4 +1,4 @@
-import { Component, GameObject, MeshComponent, MeshType, ParticlesComponent, SetShapesComponent, VolumeScatteringPostProcessComponent } from "brix";
+import { Component, GameObject, MeshComponent, MeshType, ParticlesComponent, SetShapesComponent, SoundComponent, VolumeScatteringPostProcessComponent } from "brix";
 import { Config } from "../../Config";
 import { ProjectileComponent } from "../Attacks/ProjectileComponent";
 import { DroneComponent } from "../Attacks/DroneComponent";
@@ -16,7 +16,7 @@ export class DroneWeaponComponent extends Component {
 
 
   private async createBullet(): Promise<GameObject> {
-    const bulletObject = new GameObject("bullet", this.object.getWorld());
+    const bulletObject = new GameObject("bullet", (this.object as GameObject).getWorld());
 
     const setShapes: SetShapesComponent = await bulletObject.registerComponent(SetShapesComponent);
     setShapes.meshType = MeshType.BOX;
@@ -28,7 +28,7 @@ export class DroneWeaponComponent extends Component {
 
     const particles: ParticlesComponent = await bulletObject.registerComponent(ParticlesComponent);
     particles.particlesCapacity = 200;
-    particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/flame.jpg", this.object.getWorld().getScene());
+    particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/flame.jpg", (this.object as GameObject).getWorld().getScene());
 
     await bulletObject.registerComponent(ProjectileComponent);
 
@@ -53,8 +53,10 @@ export class DroneWeaponComponent extends Component {
     }
     
     projectileComponent.target = target;
-    projectileComponent.initiator = this.object;
+    projectileComponent.initiator = (this.object as GameObject);
     projectileComponent.rotate = false;
+
+    (((this.object as GameObject).getWorld()).getComponentByName("droneAudio") as SoundComponent).play();
   }
 
  

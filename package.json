@@ -1,5 +1,5 @@
 {
-  "name": "babylonjs-typescript-starter",
+  "name": "lightyear-battle-scene",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "build": "webpack --config webpack.config.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "division5",
   "license": "ISC",
   "devDependencies": {
     "copy-webpack-plugin": "^8.1.0",
@@ -21,6 +21,6 @@
     "webpack-merge": "^5.7.3"
   },
   "dependencies": {
-    "brix": "../Brix/Engine/dist"
+    "brix": "../Engine/dist"
   }
 }

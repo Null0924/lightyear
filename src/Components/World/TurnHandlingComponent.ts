@@ -39,18 +39,18 @@ export class TurnHandlingComponent extends Component {
   public onShipAttackEnd = () => {
     this.turnOnGoing = false;
 
-    ((this.object as unknown as World).getComponentByType(HighlightLayerComponent) as HighlightLayerComponent).removeAll();
+    (this.object.getComponentByType(HighlightLayerComponent) as HighlightLayerComponent).removeAll();
 
-    const attackingShip: GameObject = (this.object as unknown as World).getObjectByName((this.currentTurnMoves[this.currentMoveIndex - 1] as AttackData).fromShipId);
-    const attackedShip: GameObject = (this.object as unknown as World).getObjectByName((this.currentTurnMoves[this.currentMoveIndex - 1] as AttackData).toShipId);
+    const attackingShip: GameObject = (this.object  as World).getObjectByName((this.currentTurnMoves[this.currentMoveIndex - 1] as AttackData).fromShipId);
+    const attackedShip: GameObject = (this.object  as World).getObjectByName((this.currentTurnMoves[this.currentMoveIndex - 1] as AttackData).toShipId);
 
     let shipId = (attackingShip.getComponentByType(EngineComponent) as EngineComponent).shipId;
-    ((this.object as unknown as World).getComponentByName("shipInfo" + shipId) as XmlGUIComponent).get().getNodeById("shipInfo").thickness = 1;
-    ((this.object as unknown as World).getComponentByName("shipInfo" + shipId) as XmlGUIComponent).get().getNodeById("shipInfo").background = "#00111855";
+    (this.object.getComponentByName("shipInfo" + shipId) as XmlGUIComponent).get().getNodeById("shipInfo").thickness = 1;
+    (this.object.getComponentByName("shipInfo" + shipId) as XmlGUIComponent).get().getNodeById("shipInfo").background = "#00111855";
 
     shipId = (attackedShip.getComponentByType(EngineComponent) as EngineComponent).shipId;
-    ((this.object as unknown as World).getComponentByName("shipInfo" + shipId) as XmlGUIComponent).get().getNodeById("shipInfo").thickness = 1;
-    ((this.object as unknown as World).getComponentByName("shipInfo" + shipId) as XmlGUIComponent).get().getNodeById("shipInfo").background = "#00111855";
+    (this.object.getComponentByName("shipInfo" + shipId) as XmlGUIComponent).get().getNodeById("shipInfo").thickness = 1;
+    (this.object.getComponentByName("shipInfo" + shipId) as XmlGUIComponent).get().getNodeById("shipInfo").background = "#00111855";
 
   }
 
@@ -102,16 +102,15 @@ export class TurnHandlingComponent extends Component {
 
     switch ((this.currentTurnMoves[this.currentMoveIndex] as AttackData).attackType) {
       case AttackType.DRONE:
-        await (attackingShip.getComponentByType(ShipWeaponComponent) as ShipWeaponComponent).launchDrones(attackedShip);
+        await (attackingShip.getComponentByType(ShipWeaponComponent) as ShipWeaponComponent).performDroneAttack(attackedShip, (this.currentTurnMoves[this.currentMoveIndex] as AttackData).count);
         break;
       case AttackType.LASER:
-        await (attackingShip.getComponentByType(ShipWeaponComponent) as ShipWeaponComponent).shootLaser(attackedShip);
+        await (attackingShip.getComponentByType(ShipWeaponComponent) as ShipWeaponComponent).performLaserAttack(attackedShip);
         break;
       case AttackType.MISSILE:
         await (attackingShip.getComponentByType(ShipWeaponComponent) as ShipWeaponComponent).launchMissile(attackedShip);
         break;
     }
-    debugger;
     (attackedShip.getComponentByType(EngineComponent) as EngineComponent).nextDamageHit = (this.currentTurnMoves[this.currentMoveIndex] as AttackData).damageOnHP;
     (attackingShip.getComponentByType(EngineComponent) as EngineComponent).onAttackEndCallback = this.onShipAttackEnd;
   }
@@ -138,7 +137,6 @@ export class TurnHandlingComponent extends Component {
           return;
         }
 
-        debugger;
         switch (this.currentTurnMoves[this.currentMoveIndex].dataType) {
 
           case DataType.ATTACK:

@@ -68,11 +68,10 @@ export class DroneComponent extends Component {
           this.step = 1;
         }
       } else if (this.step === 2 && this.lerpWeight > 1) {
-        this.object.dispose();
+        (this.object as GameObject).dispose();
         if (this.doneCallback) {
           this.doneCallback();
         }
-        await (this.initiator.getComponentByType(EngineComponent) as EngineComponent).onAttackDone();
       } else if(this.step !== 1){
         this.interpolate();
       }

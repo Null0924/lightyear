@@ -42,12 +42,13 @@ export class ProjectileComponent extends Component {
 
     if(this.target && this.initiator ) {
       if(this.lerpWeight >= 0.9) {
-        this.object.dispose();
+        (this.object as GameObject).dispose();
+
+        await (this.target.getComponentByType(EngineComponent) as EngineComponent).onHit();
 
         if(this.doneCallback) {
           await this.doneCallback();
         }
-        await (this.target.getComponentByType(EngineComponent) as EngineComponent).onHit();
         
         return;
       } else {

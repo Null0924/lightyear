@@ -1,6 +1,6 @@
 import {
   GameObject, World, MeshComponent,
-  LightComponent, CameraController, EngineType, XmlGUIComponent, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent
+  LightComponent, CameraController, EngineType, XmlGUIComponent, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent, SoundComponent
 } from "brix";
 import { ShipAnimator } from "./Components/Ship/ShipAnimator";
 import { Config } from "./Config";
@@ -76,11 +76,32 @@ export class Main {
     turnHandlingComponent.maxWaitTimer = Config.attackDelayTime;
 
     await this.world.registerComponent(CameraAnimator);
+   
     let worldLayout: XmlGUIComponent = await this.world.registerComponent(XmlGUIComponent);
     await worldLayout.loadAsync(Config.paths.guiLayouts, "worldLayout.xml");
     worldLayout.name="worldLayout";
 
+    let endGameModal: XmlGUIComponent = await this.world.registerComponent(XmlGUIComponent);
+    await endGameModal.loadAsync(Config.paths.guiLayouts, "endGame.xml");
+    endGameModal.name="endGameModal";
+
     await this.world.registerComponent(HighlightLayerComponent);
+
+    let audio: SoundComponent = await this.world.registerComponent(SoundComponent);
+    await audio.loadAsync(Config.paths.audio.effects, "laser.mp3");
+    audio.name = "laserAudio";
+
+    audio = await this.world.registerComponent(SoundComponent);
+    await audio.loadAsync(Config.paths.audio.effects, "explosion.wav");
+    audio.name = "explosionAudio";
+
+    audio = await this.world.registerComponent(SoundComponent);
+    await audio.loadAsync(Config.paths.audio.effects, "missile.mp3");
+    audio.name = "missileAudio";
+
+    audio = await this.world.registerComponent(SoundComponent);
+    await audio.loadAsync(Config.paths.audio.effects, "droneAttack.mp3");
+    audio.name = "droneAudio";
   }
 
   private async addSpaceship(environmentData: EnvironmentData, position: BABYLON.Vector3 = null) {
@@ -99,6 +120,7 @@ export class Main {
     }
     
     meshComponent.get().scaling = new BABYLON.Vector3(spaceships.get(environmentData.shipType).scale, spaceships.get(environmentData.shipType).scale, spaceships.get(environmentData.shipType).scale);
+    meshComponent.get().material.depthFunction = BABYLON.Engine.ALWAYS;
 
     const guiComponent: GUIComponent = await spaceShipObject.registerComponent(GUIComponent);
 
@@ -137,7 +159,6 @@ export class Main {
       guiComponent.get().background = "red";
       meshComponent.rotate(BABYLON.Axis.Y, 3.14, BABYLON.Space.LOCAL);
     }
-
   }
 
   public async addShipJetFire(spaceShipObject: GameObject, emitPosition: BABYLON.Vector3) {

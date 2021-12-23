@@ -67,7 +67,7 @@ export class ExplosionParticle extends Component {
     this.fireBlast.maxInitialRotation = Math.PI / 2;
 
     // Texture
-    this.fireBlast.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/explosion.png", this.object.getWorld().getScene());
+    this.fireBlast.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/explosion.png", (this.object as GameObject).getWorld().getScene());
     this.fireBlast.blendMode = BABYLON.ParticleSystem.BLENDMODE_MULTIPLYADD; 
 
     // Color over life

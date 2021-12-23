@@ -1,4 +1,4 @@
-import { Component, GameObject, MeshComponent, HighlightLayerComponent, ParticlesComponent, SetShapesComponent, VolumeScatteringPostProcessComponent } from "brix";
+import { Component, GameObject, XmlGUIComponent } from "brix";
 import { MissileName } from "../../Configs/MissileName";
 import { ExplosionParticle } from "../Particles/ExplosionParticle";
 import { GUIComponent } from "./GUIComponent";
@@ -14,7 +14,7 @@ export class EngineComponent extends Component {
   public health: number;
   public maxHealth: number;
   public nextDamageHit: number;
-  
+  public shipId: string;
 
   constructor(gameObject: GameObject, name: string) {
     super(gameObject, name);
@@ -41,10 +41,11 @@ export class EngineComponent extends Component {
 
   public async onHit() {
 
-  
     this.health -= this.nextDamageHit;
     let healthPercentage = this.health / this.maxHealth;
     (this.object.getComponentByType(GUIComponent) as GUIComponent).get().width = (healthPercentage * 100) + "px";
+    (this.object.getWorld().getComponentByName("shipInfo" + this.shipId) as XmlGUIComponent).get().getNodeById("currentHealth").text = this.health.toString();
+
 
     if(this.health <= 0) {
       let explosionParticle: ExplosionParticle = (this.object.getComponentByType(ExplosionParticle) as ExplosionParticle);

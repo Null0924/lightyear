@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<root>
+    <StackPanel id="leftShipContainer" width="120px" top="20" left="20" verticalAlignment="Control.VERTICAL_ALIGNMENT_TOP" horizontalAlignment="Control.HORIZONTAL_ALIGNMENT_LEFT">
+       <Rectangle background="#ffffff55"  width="1" height="40px" color="#4B6975" thickness="0" >
+            <TextBlock left="20px" horizontalAlignment="Control.HORIZONTAL_ALIGNMENT_LEFT" height="1" text="My Fleet"  color="white" resizeToFit="true" fontSize="15"/>
+       </Rectangle>
+    </StackPanel>
+
+    <StackPanel id="rightShipContainer" width="120px" top="20" left="-20" verticalAlignment="Control.VERTICAL_ALIGNMENT_TOP" horizontalAlignment="Control.HORIZONTAL_ALIGNMENT_RIGHT">
+       <Rectangle background="#ffffff55"  width="1" height="40px" color="#4B6975" thickness="0" >
+            <TextBlock left="-20" horizontalAlignment="Control.HORIZONTAL_ALIGNMENT_RIGHT" height="1" text="Other Fleet"  color="white" resizeToFit="true" fontSize="15"/>
+       </Rectangle>
+    </StackPanel>
+</root>

@@ -4,6 +4,7 @@ export class CameraAnimator extends Component {
 
   private totalFrames: number;
   private animating: boolean;
+  private currentAnimation;
 
   constructor(object: GameObject, name: string) {
     super(object, name);
@@ -12,18 +13,22 @@ export class CameraAnimator extends Component {
     this.animating = false;
   }
 
-  public animate(speed: number = 10, offset: number) {
+  public animate(speed: number = 10, newPosition: BABYLON.Vector3) {
 
     let camera = (this.object.getComponentByType(CameraController) as CameraController).getCamera();
 
-    BABYLON.Animation.CreateAndStartAnimation(
+    if(this.currentAnimation) {
+      this.currentAnimation.stop();
+    }
+
+    this.currentAnimation = BABYLON.Animation.CreateAndStartAnimation(
       'anim', // anim name
       camera, // mesh
-      'heightOffset', // animatable property
+      'position', // animatable property
       speed, // yep, speed
       this.totalFrames, // arcoss how many frames
-      camera.heightOffset, // starting at this color
-      offset, // finish at this color
+      camera.position, // starting at this position
+      newPosition, // finish at this position
       0,
       null,
       () => {

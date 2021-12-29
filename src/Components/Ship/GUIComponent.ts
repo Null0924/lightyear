@@ -19,7 +19,7 @@ export class GUIComponent extends Component {
     this.gui.cornerRadius = 100;
     this.gui.alpha = 0.9;
 
-    ((this.object as GameObject).getWorld().getComponentByType(GUIContainerComponent) as GUIContainerComponent).getAdvanceTexture().addControl(this.gui as unknown as Control);
+    ((this.object as GameObject).getWorld().getComponentByType(GUIContainerComponent) as GUIContainerComponent).get().addControl(this.gui as unknown as Control);
 
     this.gui.linkWithMesh((this.object.getComponentByType(MeshComponent) as MeshComponent).get());
     this.linkOffsetX = 0;

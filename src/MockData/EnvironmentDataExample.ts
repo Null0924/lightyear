@@ -10,7 +10,6 @@ const environmentDataExample : Array<EnvironmentData> = [
     z: -50,
     isMySide: true,
     initialHP: 100,
-    maxHP: 100,
     frequencyOfFluctuaction: 2,
     radiusOfFluctuation: 0.5
   },
@@ -22,7 +21,6 @@ const environmentDataExample : Array<EnvironmentData> = [
     z: -50,
     isMySide: true,
     initialHP: 100,
-    maxHP: 100,
     frequencyOfFluctuaction: 1,
     radiusOfFluctuation: 0.7
   },
@@ -34,7 +32,6 @@ const environmentDataExample : Array<EnvironmentData> = [
     z: -50,
     isMySide: true,
     initialHP: 100,
-    maxHP: 100,
     frequencyOfFluctuaction: 1,
     radiusOfFluctuation: 0.2
   },
@@ -46,7 +43,6 @@ const environmentDataExample : Array<EnvironmentData> = [
     z: -50,
     isMySide: true,
     initialHP: 120,
-    maxHP: 120,
     frequencyOfFluctuaction: 1,
     radiusOfFluctuation: 0.3
   },
@@ -58,7 +54,6 @@ const environmentDataExample : Array<EnvironmentData> = [
     z: 50,
     isMySide: false,
     initialHP: 100,
-    maxHP: 100,
     frequencyOfFluctuaction: 1,
     radiusOfFluctuation: 0.2
   },
@@ -70,7 +65,6 @@ const environmentDataExample : Array<EnvironmentData> = [
     z: 50,
     isMySide: false,
     initialHP: 100,
-    maxHP: 100,
     frequencyOfFluctuaction: 1,
     radiusOfFluctuation: 0.4
   },
@@ -82,7 +76,6 @@ const environmentDataExample : Array<EnvironmentData> = [
     z: 50,
     isMySide: false,
     initialHP: 100,
-    maxHP: 100,
     frequencyOfFluctuaction: 1,
     radiusOfFluctuation: 0.5
   },
@@ -94,7 +87,6 @@ const environmentDataExample : Array<EnvironmentData> = [
     z: 50,
     isMySide: false,
     initialHP: 120,
-    maxHP: 120,
     frequencyOfFluctuaction: 1,
     radiusOfFluctuation: 0.6
   },

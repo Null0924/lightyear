@@ -54,7 +54,7 @@ export class ShipWeaponComponent extends Component {
   }
 
   private async createDrone(xPosition: number): Promise<GameObject> {
-    debugger;
+
     const droneObject = new GameObject("drone", (this.object as GameObject).getWorld());
 
     const meshComponent: MeshComponent = await droneObject.registerComponent(MeshComponent);

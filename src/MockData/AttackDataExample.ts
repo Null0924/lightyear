@@ -15,7 +15,7 @@ const attackDataExample: Array<CameraData | WaitData | AttackData> = [
   },
   {
     dataType: DataType.WAIT,
-    duration: 100
+    duration: 2
   },
   {
     dataType: DataType.ATTACK,

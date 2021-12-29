@@ -8,9 +8,16 @@ export const Config = {
       effects: "assets/sounds/effects/"
     }
   },
+
+  healthBarScale: 15,
   rangeOfFluctuationMultipler: 10,
   attackDelayTime: 100,
   lightIntensity: 3,
+
+  responsivity: {
+    mobile: 500,
+    tablet: 1200
+  },
 
   droneInfo: {
     xSpacing: 7

@@ -54,6 +54,8 @@ export class Main {
 
     this.view.blur();
 
+    const windowWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+
     this.world = new World(this.view, EngineType.STANDARD, onReady);
     await this.world.init(true, true);
 
@@ -63,6 +65,9 @@ export class Main {
     cameraController.getCamera().beta = 0.8;
     cameraController.getCamera().alpha = 6;
 
+    if(windowWidth < Config.responsivity.mobile) {
+      cameraController.getCamera().lowerRadiusLimit = 300;
+    }
 
     const lightComponent: LightComponent = await this.world.registerComponent(HemisphericLightComponent);
     lightComponent.intensity = Config.lightIntensity;
@@ -70,7 +75,18 @@ export class Main {
     let cubeSkyboxComponent: CubeSkyBoxComponent = await this.world.registerComponent(CubeSkyBoxComponent);
     cubeSkyboxComponent.texturePath = Config.paths.textures + "skybox1/skybox1";
 
-    await this.world.registerComponent(GUIContainerComponent);
+    let guiContainer: GUIContainerComponent = await this.world.registerComponent(GUIContainerComponent);
+
+    
+    if(windowWidth < Config.responsivity.tablet) {
+      guiContainer.get().renderScale = 0.8;
+    }
+
+    if(windowWidth < Config.responsivity.mobile) {
+      guiContainer.get().renderScale = 0.4;
+    }
+
+   
     await this.world.registerComponent(SkyboxAnimator);
     const turnHandlingComponent: TurnHandlingComponent = await this.world.registerComponent(TurnHandlingComponent);
     turnHandlingComponent.maxWaitTimer = Config.attackDelayTime;
@@ -122,7 +138,7 @@ export class Main {
     meshComponent.get().scaling = new BABYLON.Vector3(spaceships.get(environmentData.shipType).scale, spaceships.get(environmentData.shipType).scale, spaceships.get(environmentData.shipType).scale);
     meshComponent.get().material.depthFunction = BABYLON.Engine.ALWAYS;
 
-    const guiComponent: GUIComponent = await spaceShipObject.registerComponent(GUIComponent);
+    // const guiComponent: GUIComponent = await spaceShipObject.registerComponent(GUIComponent);
 
     const shipAnimator: ShipAnimator = await spaceShipObject.registerComponent(ShipAnimator);
     shipAnimator.floatingFrequency = environmentData.frequencyOfFluctuaction;
@@ -135,6 +151,8 @@ export class Main {
     engineComponent.isMySide = environmentData.isMySide;
     engineComponent.missileName = spaceships.get(environmentData.shipType).missileName;
     engineComponent.shipId = environmentData.shipId;
+    await engineComponent.createHealthBar();
+
 
     await spaceShipObject.registerComponent(RotationInterpolator);
 
@@ -156,7 +174,7 @@ export class Main {
     }
 
     if (!environmentData.isMySide) {
-      guiComponent.get().background = "red";
+      // guiComponent.get().background = "red";
       meshComponent.rotate(BABYLON.Axis.Y, 3.14, BABYLON.Space.LOCAL);
     }
   }

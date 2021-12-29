@@ -65,23 +65,23 @@ export class TurnHandlingComponent extends Component {
       position.z -= Config.staticCameraAnimation.zDistance;
     }
 
-    ((this.object as unknown as World).getComponentByType(CameraAnimator) as CameraAnimator).animate(Config.staticCameraAnimation.speed, position);
+    ((this.object as World).getComponentByType(CameraAnimator) as CameraAnimator).animate(Config.staticCameraAnimation.speed, position);
   }
 
   private applyAttackTurn = async () => {
-    const attackingShip: GameObject = (this.object as unknown as World).getObjectByName((this.currentTurnMoves[this.currentMoveIndex] as AttackData).fromShipId);
-    const attackedShip: GameObject = (this.object as unknown as World).getObjectByName((this.currentTurnMoves[this.currentMoveIndex] as AttackData).toShipId);
+    const attackingShip: GameObject = (this.object as World).getObjectByName((this.currentTurnMoves[this.currentMoveIndex] as AttackData).fromShipId);
+    const attackedShip: GameObject = (this.object as World).getObjectByName((this.currentTurnMoves[this.currentMoveIndex] as AttackData).toShipId);
 
     if (!attackingShip || !attackedShip) {
       this.currentMoveIndex += 1;
       return;
     }
 
-    ((this.object as unknown as World).getComponentByType(HighlightLayerComponent) as HighlightLayerComponent).add(
+    ((this.object as World).getComponentByType(HighlightLayerComponent) as HighlightLayerComponent).add(
       (attackingShip.getComponentByType(MeshComponent) as MeshComponent).get(), BABYLON.Color3.White()
     );
 
-    ((this.object as unknown as World).getComponentByType(HighlightLayerComponent) as HighlightLayerComponent).add(
+    ((this.object as World).getComponentByType(HighlightLayerComponent) as HighlightLayerComponent).add(
       (attackedShip.getComponentByType(MeshComponent) as MeshComponent).get(), BABYLON.Color3.Red()
     );
 
@@ -94,11 +94,11 @@ export class TurnHandlingComponent extends Component {
     let myShipId = (attackingShip.getComponentByType(EngineComponent) as EngineComponent).shipId;
     let otherShipId = (attackedShip.getComponentByType(EngineComponent) as EngineComponent).shipId;
 
-    ((this.object as unknown as World).getComponentByName("shipInfo" + myShipId) as XmlGUIComponent).get().getNodeById("shipInfo").thickness = 2;
-    ((this.object as unknown as World).getComponentByName("shipInfo" + myShipId) as XmlGUIComponent).get().getNodeById("shipInfo").background = "#77777755";
+    ((this.object as World).getComponentByName("shipInfo" + myShipId) as XmlGUIComponent).get().getNodeById("shipInfo").thickness = 2;
+    ((this.object as World).getComponentByName("shipInfo" + myShipId) as XmlGUIComponent).get().getNodeById("shipInfo").background = "#77777755";
 
-    ((this.object as unknown as World).getComponentByName("shipInfo" + otherShipId) as XmlGUIComponent).get().getNodeById("shipInfo").thickness = 2;
-    ((this.object as unknown as World).getComponentByName("shipInfo" + otherShipId) as XmlGUIComponent).get().getNodeById("shipInfo").background = "#ff1c1c55";
+    ((this.object as World).getComponentByName("shipInfo" + otherShipId) as XmlGUIComponent).get().getNodeById("shipInfo").thickness = 2;
+    ((this.object as World).getComponentByName("shipInfo" + otherShipId) as XmlGUIComponent).get().getNodeById("shipInfo").background = "#ff1c1c55";
 
     switch ((this.currentTurnMoves[this.currentMoveIndex] as AttackData).attackType) {
       case AttackType.DRONE:
@@ -144,10 +144,10 @@ export class TurnHandlingComponent extends Component {
             this.maxWaitTimer = 50;
             break;
           case DataType.CAMERA:
-            ((this.object as unknown as World).getComponentByType(CameraAnimator) as CameraAnimator).animate(Config.staticCameraAnimation.speed, new BABYLON.Vector3((this.currentTurnMoves[this.currentMoveIndex] as CameraData).x, (this.currentTurnMoves[this.currentMoveIndex] as CameraData).y, (this.currentTurnMoves[this.currentMoveIndex] as CameraData).z));
+            ((this.object  as World).getComponentByType(CameraAnimator) as CameraAnimator).animate(Config.staticCameraAnimation.speed, new BABYLON.Vector3((this.currentTurnMoves[this.currentMoveIndex] as CameraData).x, (this.currentTurnMoves[this.currentMoveIndex] as CameraData).y, (this.currentTurnMoves[this.currentMoveIndex] as CameraData).z));
             break;
           case DataType.WAIT:
-            this.maxWaitTimer = (this.currentTurnMoves[this.currentMoveIndex] as WaitData).duration;
+            this.maxWaitTimer = (this.currentTurnMoves[this.currentMoveIndex] as WaitData).duration * 60;
             break;
         }
 

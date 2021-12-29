@@ -2,10 +2,10 @@ import { AttackType } from "./AttackType";
 import { DataType } from "./DataType";
 
 export type AttackData = {
-  dataType: DataType,
-  fromShipId: string,
-  toShipId: string,
-  attackType: AttackType,
-  damageOnHP: number,
-  count: number
+  dataType: DataType, // Defines the data type
+  fromShipId: string, // attacking ship
+  toShipId: string, // attacked ship
+  attackType: AttackType, // attack type ( drone, missile, laser )
+  damageOnHP: number, // damange inflicted
+  count: number // For drone
 }

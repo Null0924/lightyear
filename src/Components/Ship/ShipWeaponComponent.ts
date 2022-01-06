@@ -1,4 +1,4 @@
-import { Component, GameObject, MeshComponent, MeshType, ParticlesComponent, SetShapesComponent, SoundComponent, VolumeScatteringPostProcessComponent } from "brix";
+import { Component, GameObject, HighlightLayerComponent, MeshComponent, MeshType, ParticlesComponent, SetShapesComponent, SoundComponent } from "@ludum_studios/brix-core";
 import { Config } from "../../Config";
 import { ProjectileComponent } from "../Attacks/ProjectileComponent";
 import { DroneComponent } from "../Attacks/DroneComponent";
@@ -62,9 +62,8 @@ export class ShipWeaponComponent extends Component {
 
     await meshComponent.loadAsync(Config.paths.missiles, MissileName.DRONE);
     meshComponent.get().isVisible = 1;
-
     meshComponent.get().material.subMaterials[0].albedoTexture = new BABYLON.Texture(Config.paths.missiles + MissileName.MISSILE_TEXTURE, (this.object as GameObject).getWorld().getScene(), false, false);
-    meshComponent.get().scaling = new BABYLON.Vector3(2, 2, 2);
+    meshComponent.get().scaling = new BABYLON.Vector3(Config.droneInfo.scaling, Config.droneInfo.scaling, Config.droneInfo.scaling);
 
     let positionToAdd = this.dronesStartPosition.clone();
     positionToAdd.x = xPosition;
@@ -85,12 +84,17 @@ export class ShipWeaponComponent extends Component {
     setShapes.meshType = MeshType.CYLINDER;
 
     let meshComponent: MeshComponent = (laserObject.getComponentByType(MeshComponent) as MeshComponent);
-    meshComponent.get().scaling = new BABYLON.Vector3(0.25, 5, 0.25);
+    meshComponent.get().scaling = new BABYLON.Vector3(0.25, Config.laserInfo.scaling, 0.25);
     meshComponent.get().position = this.laserStartPosition.clone();
     meshComponent.get().position = (this.object.getComponentByType(MeshComponent) as MeshComponent).position.add(this.laserStartPosition.clone());
     meshComponent.get().material = new BABYLON.StandardMaterial('glow', (this.object as GameObject).getWorld().getScene());
     meshComponent.get().material.emissiveColor = new BABYLON.Color3(0, 0.5, 1);
+    meshComponent.get().material.diffuseColor = new BABYLON.Color3(0, 0.5, 1);
     meshComponent.get().rotate(BABYLON.Axis.X, 1.57, BABYLON.Space.LOCAL);
+
+    ((this.object as GameObject).getWorld().getComponentByType(HighlightLayerComponent) as HighlightLayerComponent).add(
+      meshComponent.get(), new BABYLON.Color3(0, 0.5, 1)
+    );
 
     await laserObject.registerComponent(ProjectileComponent);
 
@@ -178,7 +182,7 @@ export class ShipWeaponComponent extends Component {
     const laserObject = await this.createLaser();
 
     const projectileComponent: ProjectileComponent = (laserObject.getComponentByType(ProjectileComponent) as ProjectileComponent);
-    projectileComponent.animationSpeed = 0.05;
+    projectileComponent.animationSpeed = Config.laserInfo.animationSpeed;
 
     if (finishCallback) {
       projectileComponent.doneCallback = finishCallback;

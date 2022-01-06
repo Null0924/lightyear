@@ -1,4 +1,4 @@
-import { Component, GameObject, SoundComponent, XmlGUIComponent, SetShapesComponent, MeshType, MeshComponent } from "brix";
+import { Component, GameObject, SoundComponent, XmlGUIComponent, SetShapesComponent, MeshType, MeshComponent } from "@ludum_studios/brix-core";
 import { Config } from "../../Config";
 import { MissileName } from "../../Configs/MissileName";
 import { ExplosionParticle } from "../Particles/ExplosionParticle";
@@ -52,9 +52,17 @@ export class EngineComponent extends Component {
     meshComponent.get().position = BABYLON.Vector3.Zero();
 
     meshComponent.get().material = new BABYLON.StandardMaterial("billboard", (this.object as GameObject).getWorld().getScene());
-    meshComponent.get().material.diffuseColor = BABYLON.Color3.Red();
+  
     meshComponent.get().material.backFaceCulling = false;
-    meshComponent.get().material.emissiveColor = BABYLON.Color3.Red();
+    
+    if(!this.isMySide) {
+      meshComponent.get().material.diffuseColor = BABYLON.Color3.Red();
+      meshComponent.get().material.emissiveColor = BABYLON.Color3.Red();  
+    } else {
+      meshComponent.get().material.diffuseColor = BABYLON.Color3.Green();
+      meshComponent.get().material.emissiveColor = BABYLON.Color3.Green();  
+    }
+    
     meshComponent.get().material.disableLighting = true;
 
     this.healthBarObject.removeComponentByType(SetShapesComponent);

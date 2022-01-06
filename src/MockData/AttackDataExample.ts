@@ -20,7 +20,7 @@ const attackDataExample: Array<CameraData | WaitData | AttackData> = [
   {
     dataType: DataType.ATTACK,
     attackType: AttackType.DRONE,
-    count: 8,
+    count: 2,
     fromShipId: "2",
     toShipId: "5",
     damageOnHP: 12

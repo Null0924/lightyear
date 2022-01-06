@@ -1,7 +1,7 @@
 import {
   GameObject, World, MeshComponent,
   LightComponent, CameraController, EngineType, XmlGUIComponent, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent, SoundComponent
-} from "brix";
+} from "@ludum_studios/brix-core";
 import { ShipAnimator } from "./Components/Ship/ShipAnimator";
 import { Config } from "./Config";
 import spaceships from "./Configs/Spaceships";
@@ -77,13 +77,13 @@ export class Main {
 
     let guiContainer: GUIContainerComponent = await this.world.registerComponent(GUIContainerComponent);
 
-    
+
     if(windowWidth < Config.responsivity.tablet) {
-      guiContainer.get().renderScale = 0.8;
+      guiContainer.get().renderScale = 0.6;
     }
 
     if(windowWidth < Config.responsivity.mobile) {
-      guiContainer.get().renderScale = 0.4;
+      guiContainer.get().renderScale = 0.55;
     }
 
    
@@ -97,11 +97,20 @@ export class Main {
     await worldLayout.loadAsync(Config.paths.guiLayouts, "worldLayout.xml");
     worldLayout.name="worldLayout";
 
+    worldLayout.get().getNodeById("audioContainer").onPointerClickObservable.add(this.onSwitchAudio);
+
     let endGameModal: XmlGUIComponent = await this.world.registerComponent(XmlGUIComponent);
     await endGameModal.loadAsync(Config.paths.guiLayouts, "endGame.xml");
     endGameModal.name="endGameModal";
 
+    BABYLON.Engine.audioEngine.useCustomUnlockedButton = true;
+
     await this.world.registerComponent(HighlightLayerComponent);
+
+    this.setupAudio();
+  }
+
+  private async setupAudio() {
 
     let audio: SoundComponent = await this.world.registerComponent(SoundComponent);
     await audio.loadAsync(Config.paths.audio.effects, "laser.mp3");
@@ -118,6 +127,21 @@ export class Main {
     audio = await this.world.registerComponent(SoundComponent);
     await audio.loadAsync(Config.paths.audio.effects, "droneAttack.mp3");
     audio.name = "droneAudio";
+
+    BABYLON.Engine.audioEngine.lock();
+  }
+
+  private onSwitchAudio = () => {
+    if(BABYLON.Engine.audioEngine.unlocked && BABYLON.Engine.audioEngine.getGlobalVolume() > 0) {
+      BABYLON.Engine.audioEngine.setGlobalVolume(0);
+      this.world.getComponentByName("worldLayout").get().getNodeById("audioImage").source = "assets/images/speaker_off.png";
+      this.world.getComponentByName("worldLayout").get().getNodeById("audioContainer").color = "red";
+    } else {
+      BABYLON.Engine.audioEngine.unlock();
+      BABYLON.Engine.audioEngine.setGlobalVolume(1);
+      this.world.getComponentByName("worldLayout").get().getNodeById("audioImage").source = "assets/images/speaker.png";
+      this.world.getComponentByName("worldLayout").get().getNodeById("audioContainer").color = "#4B6975";
+    }
   }
 
   private async addSpaceship(environmentData: EnvironmentData, position: BABYLON.Vector3 = null) {

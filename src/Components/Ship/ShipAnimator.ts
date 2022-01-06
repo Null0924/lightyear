@@ -1,4 +1,4 @@
-import { Component, GameObject, MeshComponent } from "brix";
+import { Component, GameObject, MeshComponent } from "@ludum_studios/brix-core";
 
 export class ShipAnimator extends Component {
 

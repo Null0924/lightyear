@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <root>
-    <Rectangle id="shipInfo" background="#00111855"  width="1" height="40px" color="#4B6975" thickness="1" >
-        <StackPanel top="5" width="1" height="1" >
-            <TextBlock left="-20" horizontalAlignment="Control.HORIZONTAL_ALIGNMENT_RIGHT" id="shipName" height="1" text="Light Craft - Lv 1"  color="white" resizeToFit="true" fontSize="10"/>
+    <Rectangle id="shipInfo" background="#00111855"  width="1" height="60px" color="#4B6975" thickness="1" >
+        <StackPanel top="10" width="1" height="1" >
+            <TextBlock left="-20" horizontalAlignment="Control.HORIZONTAL_ALIGNMENT_RIGHT" id="shipName" height="1" text="Light Craft - Lv 1"  color="white" resizeToFit="true" fontSize="13"/>
             <StackPanel left="-20" horizontalAlignment="Control.HORIZONTAL_ALIGNMENT_RIGHT"  height="20px" isVertical="false">
-                <TextBlock id="currentHealth" height="1" width="20px" text="500" color="#4F904D" resizeToFit="true" fontSize="10"/>    
-                <TextBlock height="1" text=" / " color="white" width="5px" resizeToFit="true" fontSize="10"/>
-                <TextBlock id="maxHealth" height="1" text="2000" width="20px" color="white" resizeToFit="true" fontSize="10"/> 
+                <TextBlock id="currentHealth" height="1" width="20px" text="500" color="#4F904D" resizeToFit="true" fontSize="13"/>    
+                <TextBlock height="1" text=" / " color="white" width="5px" resizeToFit="true" fontSize="13"/>
+                <TextBlock id="maxHealth" height="1" text="2000" width="20px" color="white" resizeToFit="true" fontSize="13"/> 
             </StackPanel>
         </StackPanel>
     </Rectangle>

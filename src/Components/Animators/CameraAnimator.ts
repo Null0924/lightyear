@@ -1,4 +1,4 @@
-import { CameraController, Component, GameObject } from "brix";
+import { CameraController, Component, GameObject } from "@ludum_studios/brix-core";
 
 export class CameraAnimator extends Component {
 

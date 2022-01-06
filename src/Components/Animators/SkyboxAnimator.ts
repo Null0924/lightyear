@@ -1,4 +1,4 @@
-import { Component, GameObject, CubeSkyBoxComponent } from "brix";
+import { Component, GameObject, CubeSkyBoxComponent } from "@ludum_studios/brix-core";
 
 export class SkyboxAnimator extends Component {
 

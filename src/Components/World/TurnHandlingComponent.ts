@@ -1,4 +1,4 @@
-import { Component, GameObject, World, HighlightLayerComponent, MeshComponent, XmlGUIComponent } from "brix";
+import { Component, GameObject, World, HighlightLayerComponent, MeshComponent, XmlGUIComponent } from "@ludum_studios/brix-core";
 import { Config } from "../../Config";
 import { AttackData } from "../../Types/AttackData";
 import { AttackType } from "../../Types/AttackType";

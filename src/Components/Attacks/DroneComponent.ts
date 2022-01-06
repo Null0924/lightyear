@@ -1,4 +1,4 @@
-import { Component, GameObject, MeshComponent } from "brix";
+import { Component, GameObject, MeshComponent } from "@ludum_studios/brix-core";
 import { DroneWeaponComponent } from "../Ship/DroneWeaponComponent";
 import { EngineComponent } from "../Ship/EngineComponent";
 

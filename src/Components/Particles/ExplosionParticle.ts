@@ -1,4 +1,4 @@
-import { Component, GameObject, MeshComponent } from "brix";
+import { Component, GameObject, MeshComponent } from "@ludum_studios/brix-core";
 import { Config } from "../../Config";
 
 export class ExplosionParticle extends Component {

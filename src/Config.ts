@@ -16,11 +16,18 @@ export const Config = {
 
   responsivity: {
     mobile: 500,
-    tablet: 1200
+    tablet: 1400
   },
 
   droneInfo: {
-    xSpacing: 7
+    xSpacing: 7,
+    scaling: 1,
+    shootingAnimationSpeed: 0.08
+  },
+
+  laserInfo: {
+    scaling: 30,
+    animationSpeed: 0.2
   },
 
   staticLayout : {

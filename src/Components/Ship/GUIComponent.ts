@@ -1,5 +1,4 @@
-import { Control } from "babylonjs-gui/2D/controls/control";
-import { Component, GameObject, GUIContainerComponent, MeshComponent } from "brix";
+import { Component, GameObject, GUIContainerComponent, MeshComponent } from "@ludum_studios/brix-core";
 
 
 export class GUIComponent extends Component {
@@ -19,7 +18,7 @@ export class GUIComponent extends Component {
     this.gui.cornerRadius = 100;
     this.gui.alpha = 0.9;
 
-    ((this.object as GameObject).getWorld().getComponentByType(GUIContainerComponent) as GUIContainerComponent).get().addControl(this.gui as unknown as Control);
+    ((this.object as GameObject).getWorld().getComponentByType(GUIContainerComponent) as GUIContainerComponent).get().addControl(this.gui);
 
     this.gui.linkWithMesh((this.object.getComponentByType(MeshComponent) as MeshComponent).get());
     this.linkOffsetX = 0;

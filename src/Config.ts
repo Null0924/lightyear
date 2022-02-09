@@ -2,15 +2,12 @@ export const Config = {
   paths : {
     models: "https://lightyear-game.vercel.app/assets/models/",
     missiles : "https://lightyear-game.vercel.app/assets/models/missles/",
-    planet: "http://localhost:9000/assets/planets/",
     textures: "assets/textures/",
     guiLayouts: "assets/guiLayouts/",
     audio: {
       effects: "assets/sounds/effects/"
-    },
-
+    }
   },
-
 
   healthBarScale: 15,
   rangeOfFluctuationMultipler: 10,

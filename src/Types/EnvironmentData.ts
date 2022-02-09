@@ -1,5 +1,4 @@
 import { SpaceShipName } from "../Configs/SpaceShipName";
-import { PlanetName } from "../Configs/PlanetName";
 
 export type EnvironmentData = {
   shipId: string,

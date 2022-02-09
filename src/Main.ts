@@ -14,6 +14,7 @@ import { EnvironmentData } from "./Types/EnvironmentData";
 import { GUIComponent } from "./Components/Ship/GUIComponent";
 import { TurnHandlingComponent } from "./Components/World/TurnHandlingComponent";
 import { RotationInterpolator } from "./Components/Ship/RotationInterpolator";
+import { OrbitRotatorComponent } from "./Components/Ship/OrbitRotatorComponent";
 import { WaitData } from "./Types/WaitData";
 import { CameraData } from "./Types/CameraData";
 import { CameraAnimator } from "./Components/Animators/CameraAnimator";
@@ -60,7 +61,7 @@ export class Main {
     await this.world.init(true, true);
 
     const cameraController: CameraController = await this.world.registerComponent(ArcRotateCameraController);
-    cameraController.position = new BABYLON.Vector3(0, 150, 0);
+    cameraController.position = new BABYLON.Vector3(0, 300, 0);
     cameraController.getCamera().lockedTarget = BABYLON.Vector3.Zero();
     cameraController.getCamera().beta = 0.8;
     cameraController.getCamera().alpha = 6;
@@ -103,11 +104,11 @@ export class Main {
     await endGameModal.loadAsync(Config.paths.guiLayouts, "endGame.xml");
     endGameModal.name="endGameModal";
 
-    BABYLON.Engine.audioEngine.useCustomUnlockedButton = true;
+   BABYLON.Engine.audioEngine.useCustomUnlockedButton = true;
 
-    await this.world.registerComponent(HighlightLayerComponent);
+   await this.world.registerComponent(HighlightLayerComponent);
 
-    this.setupAudio();
+   this.setupAudio();
   }
 
   private async setupAudio() {
@@ -144,6 +145,47 @@ export class Main {
     }
   }
 
+  private async addPlanet() {
+    console.log('addPlanetCalled');
+
+    const planetObject: GameObject = new GameObject('6', this.world);
+
+    const meshComponent: MeshComponent = await planetObject.registerComponent(MeshComponent);
+
+  
+
+    await meshComponent.loadAsync( Config.paths.planet + 'planet-', 'mesh.glb' );
+
+     meshComponent.get().material.subMaterials[0].albedoTexture = new BABYLON.Texture(
+      Config.paths.planet + 'mercury-texture.jpg', 
+      this.world.getScene(), false, false);
+
+      meshComponent.position = new BABYLON.Vector3(0,0,0);
+      meshComponent.get().scaling =  new BABYLON.Vector3(20,20,20);
+    //   meshComponent.get().material.depthFunction = BABYLON.Engine.ALWAYS;
+       await planetObject.registerComponent(OrbitRotatorComponent);
+
+  }
+  private async addSpaceStation() {
+    console.log('addSpaceStation Called');
+
+    const spaceStationObject: GameObject = new GameObject('99', this.world);
+
+    const meshComponent: MeshComponent = await spaceStationObject.registerComponent(MeshComponent);
+    await meshComponent.loadAsync( Config.paths.planet + 'planet-', 'mesh.glb' );
+
+    meshComponent.get().material.subMaterials[0].albedoTexture = new BABYLON.Texture(Config.paths.planet + 'spaceStration-texture.jpg', this.world.getScene(), false, false);
+
+    meshComponent.position = new BABYLON.Vector3(50,0,50);
+    meshComponent.get().scaling =  new BABYLON.Vector3(10,10,10);
+    meshComponent.get().material.depthFunction = BABYLON.Engine.ALWAYS;
+    
+    let orbitRotator: OrbitRotatorComponent = await spaceStationObject.registerComponent(OrbitRotatorComponent);
+    orbitRotator.rotateAroundSelf = false;
+    orbitRotator.rotateAroundTarget = true;
+
+  }
+
   private async addSpaceship(environmentData: EnvironmentData, position: BABYLON.Vector3 = null) {
 
     const spaceShipObject: GameObject = new GameObject(environmentData.shipId, this.world);
@@ -151,7 +193,6 @@ export class Main {
     const meshComponent: MeshComponent = await spaceShipObject.registerComponent(MeshComponent);
     await meshComponent.loadAsync(Config.paths.models + spaceships.get(environmentData.shipType).path, spaceships.get(environmentData.shipType).fileName);
     meshComponent.get().material.subMaterials[0].albedoTexture = new BABYLON.Texture(Config.paths.models + spaceships.get(environmentData.shipType).path + spaceships.get(environmentData.shipType).textureName, this.world.getScene(), false, false);
-
 
     if(!Config.staticLayout.active) {
       meshComponent.position = new BABYLON.Vector3(environmentData.x, environmentData.y, environmentData.z);
@@ -162,7 +203,10 @@ export class Main {
     meshComponent.get().scaling = new BABYLON.Vector3(spaceships.get(environmentData.shipType).scale, spaceships.get(environmentData.shipType).scale, spaceships.get(environmentData.shipType).scale);
     meshComponent.get().material.depthFunction = BABYLON.Engine.ALWAYS;
 
-    // const guiComponent: GUIComponent = await spaceShipObject.registerComponent(GUIComponent);
+
+    
+
+    const guiComponent: GUIComponent = await spaceShipObject.registerComponent(GUIComponent);
 
     const shipAnimator: ShipAnimator = await spaceShipObject.registerComponent(ShipAnimator);
     shipAnimator.floatingFrequency = environmentData.frequencyOfFluctuaction;
@@ -179,6 +223,7 @@ export class Main {
 
 
     await spaceShipObject.registerComponent(RotationInterpolator);
+   
 
     const weaponsComponent: ShipWeaponComponent = await spaceShipObject.registerComponent(ShipWeaponComponent);
     weaponsComponent.missileStartPosition = spaceships.get(environmentData.shipType).missilePosition;
@@ -219,7 +264,7 @@ export class Main {
   }
 
   public setEnvironmentData = async (environmentDataList: Array<EnvironmentData>) => {
-
+   
     if(Config.staticLayout.active) {
       await this.loadStaticLayout(environmentDataList);
     } else {
@@ -228,8 +273,9 @@ export class Main {
         await this.addShipInfoGUI(environmentData);
       }
     }
-
-    this.onReady();
+    
+    this.onReady(); 
+    
   }
 
   private async addShipInfoGUI(environmentData: EnvironmentData) {
@@ -253,46 +299,51 @@ export class Main {
   }
 
   private async loadStaticLayout(environmentDataList: Array<EnvironmentData>) {
+      
+    await this.addPlanet();
+    await this.addSpaceStation();
 
-    const mySideShips: Array<EnvironmentData> = [];
-    const otherSideShips: Array<EnvironmentData> = [];
 
-    for (let environmentData of environmentDataList) {
-      if (!environmentData.isMySide) {
-        mySideShips.push(environmentData);
-      } else {
-        otherSideShips.push(environmentData);
-      }
-      await this.addShipInfoGUI(environmentData);
-    }
 
-    let beginningX = 0;
-    let beginningZ = Config.staticLayout.initialZ;
 
-    beginningX = (mySideShips.length / 2) * -1 * Config.staticLayout.xSpacing;
 
-    for (let index = 0; index < mySideShips.length; index++) {
-      if (index <= mySideShips.length / 2) {
-        beginningZ -= Config.staticLayout.zSpacing;
-      } else {
-        beginningZ += Config.staticLayout.zSpacing;
-      }
-      await this.addSpaceship(mySideShips[index], new BABYLON.Vector3(beginningX, 0, beginningZ));
-      beginningX += Config.staticLayout.xSpacing;
-    }
 
-    beginningZ = -1 * Config.staticLayout.initialZ;
-    beginningX = (otherSideShips.length / 2) * -1 * Config.staticLayout.xSpacing;
+    // for (let environmentData of environmentDataList) {
+    //   if (!environmentData.isMySide) {
+    //     mySideShips.push(environmentData);
+    //   } else {
+    //     otherSideShips.push(environmentData);
+    //   }
+    //   await this.addShipInfoGUI(environmentData);
+    // }
 
-    for (let index = 0; index < otherSideShips.length; index++) {
-      if (index <= otherSideShips.length / 2) {
-        beginningZ += Config.staticLayout.zSpacing;
-      } else {
-        beginningZ -= Config.staticLayout.zSpacing;
-      }
-      await this.addSpaceship(otherSideShips[index], new BABYLON.Vector3(beginningX, 0, beginningZ));
-      beginningX += Config.staticLayout.xSpacing;
-    }
+    // let beginningX = 0;
+    // let beginningZ = Config.staticLayout.initialZ;
+
+    // beginningX = (mySideShips.length / 2) * -1 * Config.staticLayout.xSpacing;
+
+    // for (let index = 0; index < mySideShips.length; index++) {
+    //   if (index <= mySideShips.length / 2) {
+    //     beginningZ -= Config.staticLayout.zSpacing;
+    //   } else {
+    //     beginningZ += Config.staticLayout.zSpacing;
+    //   }
+    //   await this.addSpaceship(mySideShips[index], new BABYLON.Vector3(beginningX, 0, beginningZ));
+    //   beginningX += Config.staticLayout.xSpacing;
+    // }
+
+    // beginningZ = -1 * Config.staticLayout.initialZ;
+    // beginningX = (otherSideShips.length / 2) * -1 * Config.staticLayout.xSpacing;
+
+    // for (let index = 0; index < otherSideShips.length; index++) {
+    //   if (index <= otherSideShips.length / 2) {
+    //     beginningZ += Config.staticLayout.zSpacing;
+    //   } else {
+    //     beginningZ -= Config.staticLayout.zSpacing;
+    //   }
+    //   await this.addSpaceship(otherSideShips[index], new BABYLON.Vector3(beginningX, 0, beginningZ));
+    //   beginningX += Config.staticLayout.xSpacing;
+    // }
   }
 
   public setAttackTurn = async (attackTurnData: Array<WaitData | CameraData | AttackData>) => {

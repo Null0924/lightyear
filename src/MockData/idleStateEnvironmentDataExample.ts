@@ -5,9 +5,9 @@ const idleStateEnvironmentDataExample : Array<IdleStateEnvironmentData> = [
   {
     shipId: "1",
     shipType: SpaceShipName.ASTEROID_MINER,
-    x: 130,
-    y: 0,
-    z: -50,
+    x: 160,
+    y: 10,
+    z: -15,
   },
   {
     shipId: "2",

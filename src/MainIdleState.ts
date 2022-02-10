@@ -60,12 +60,10 @@ export class MainIdleState {
     await this.world.init(true, true);
 
     const cameraController: CameraController = await this.world.registerComponent(ArcRotateCameraController);
-    cameraController.position = new BABYLON.Vector3(0, 250, 0);
+    cameraController.position = new BABYLON.Vector3(0, 350, 0);
     cameraController.getCamera().lockedTarget = BABYLON.Vector3.Zero();
-    // cameraController.getCamera().beta = 0.8;
-    // cameraController.getCamera().alpha = 6;
-    cameraController.getCamera().upperRadiusLimit = 250;
-    cameraController.getCamera().lowerRadiusLimit = 150;
+    cameraController.getCamera().upperRadiusLimit = 400;
+    cameraController.getCamera().lowerRadiusLimit = 200;
 
     if(windowWidth < Config.responsivity.mobile) {
       cameraController.getCamera().lowerRadiusLimit = 300;
@@ -96,8 +94,10 @@ export class MainIdleState {
     meshComponent.get().material.depthFunction = BABYLON.Engine.ALWAYS;
 
     meshComponent.position = new BABYLON.Vector3(environmentData.x, environmentData.y, environmentData.z);
-    await spaceshipObject.registerComponent(OrbitRotatorComponent);
 
+    let orbitRotator: OrbitRotatorComponent = await spaceshipObject.registerComponent(OrbitRotatorComponent);
+    orbitRotator.rotateAroundSelf = false;
+    orbitRotator.rotateAroundTarget = true;
   }
 
   public async addPlanet() {
@@ -106,11 +106,11 @@ export class MainIdleState {
     const meshComponent: MeshComponent = await planetObject.registerComponent(MeshComponent);
     await meshComponent.loadAsync(Config.paths.localModels ,"planetMesh.glb");
     meshComponent.get().material.subMaterials[0].albedoTexture = new BABYLON.Texture(Config.paths.textures + "planets/earth-texture.jpg", this.world.getScene(), false, false);
-    meshComponent.get().scaling = new BABYLON.Vector3(23,23,23);
+    meshComponent.get().scaling = new BABYLON.Vector3(28,28,28);
 
     let orbitRotator: OrbitRotatorComponent = await planetObject.registerComponent(OrbitRotatorComponent);
     orbitRotator.rotateAroundSelfAngle = 0.004;
-    orbitRotator.rotateAroundSelf = false;
+    orbitRotator.rotateAroundSelf = true;
     orbitRotator.rotateAroundTarget = false;
     await planetObject.registerComponent(RotationInterpolator);
     await planetObject.registerComponent(RotationInterpolator);   

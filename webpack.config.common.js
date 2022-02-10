@@ -3,7 +3,8 @@ const CopyPlugin = require("copy-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = {
-  entry: "./src/index.ts",
+  // entry: "./src/index.ts", // battle stage
+  entry: "./src/warpStateIndex.ts",
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: '[name].[contenthash].js',

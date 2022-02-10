@@ -9,7 +9,7 @@ export type EnvironmentData = {
   isMySide: boolean,
   radiusOfFluctuation: number,
   frequencyOfFluctuaction: number,
-  initialHP
+  initialHP: number,
 }
 
 

@@ -1,8 +1,5 @@
 import { MainIdleState } from "./MainIdleState"
-import planetDataExample from "./MockData/IdleScene/planetDataExample";
-import spaceshipDataExample from "./MockData/IdleScene/spaceshipDataExample";
-import spaceStationtDataExample from "./MockData/IdleScene/spaceStationDataExample";
-
+import idleStateEnvironmentDataExample from "./MockData/idleStateEnvironmentDataExample";
 const view = document.getElementById("view") as HTMLCanvasElement
 let main = new MainIdleState(view); 
 
@@ -22,7 +19,5 @@ window.onmessage = function(event) {
 
 (async function() {
   await main.setup(onReady);
-  await main.setPlanetData(planetDataExample);
-  await main.setSpaceshipData(spaceshipDataExample);
-  await main.setSpaceStationtData(spaceStationtDataExample);
+  await main.setEnvironmentData(idleStateEnvironmentDataExample);
 })();

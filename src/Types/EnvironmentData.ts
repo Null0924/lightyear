@@ -11,3 +11,6 @@ export type EnvironmentData = {
   frequencyOfFluctuaction: number,
   initialHP
 }
+
+
+

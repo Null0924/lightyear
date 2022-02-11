@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = {
   //entry: "./src/index.ts",        // Battle Scenario
-  entry: "./src/indexIdleState.ts",
+  entry: "./src/indexDefendState.ts",
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: '[name].[contenthash].js',

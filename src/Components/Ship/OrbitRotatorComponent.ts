@@ -9,7 +9,6 @@ export class OrbitRotatorComponent extends Component {
     private centerAxis: BABYLON.Vector3;
     public speed : number;
     public radius : number;
-    
 
     constructor(object: GameObject, name: string,) {
         super(object, name,);
@@ -41,7 +40,7 @@ export class OrbitRotatorComponent extends Component {
 
             this.rotateAroundTargetAngle += this.speed;
         }
-        if (this.rotateAroundSelf) { console.log('oooooooook');
+        if (this.rotateAroundSelf) { 
             (this.object.getComponentByType(MeshComponent) as MeshComponent).get().rotate(this.centerAxis, this.rotateAroundSelfAngle, BABYLON.Space.WORLD);
         }
     }

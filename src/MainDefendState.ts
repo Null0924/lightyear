@@ -1,17 +1,17 @@
 import {
     GameObject, World, MeshComponent,
-    LightComponent, CameraController, EngineType, XmlGUIComponent, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent, SoundComponent
+    LightComponent, CameraController, EngineType, XmlGUIComponent, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent, SoundComponent, FollowCameraController
   } from "@ludum_studios/brix-core";
 import { Config } from "./Config";
 import spaceships from "./Configs/Spaceships";
-import { SpaceShipName } from "./Configs/SpaceShipName";
 import { SkyboxAnimator } from "./Components/Animators/SkyboxAnimator";
 import { IdleStateEnvironmentData } from "./Types/idleStateEnvironmentData";
 import { RotationInterpolator } from "./Components/Ship/RotationInterpolator";
 import { OrbitRotatorComponent } from "./Components/Ship/OrbitRotatorComponent";
 import { CameraAnimator } from "./Components/Animators/CameraAnimator";
+import { SpaceShipName } from "./Configs/SpaceShipName";
 
-export class MainIdleState {
+export class MainDefendState {
   private world;
   private view;
   private started;
@@ -60,10 +60,7 @@ export class MainIdleState {
     await this.world.init(true, true);
 
     const cameraController: CameraController = await this.world.registerComponent(ArcRotateCameraController);
-    cameraController.position = new BABYLON.Vector3(0, 350, 0);
-    cameraController.getCamera().lockedTarget = BABYLON.Vector3.Zero();
-    cameraController.getCamera().upperRadiusLimit = 400;
-    cameraController.getCamera().lowerRadiusLimit = 200;
+    cameraController.position = new BABYLON.Vector3(0, 150, 0);
 
     if(windowWidth < Config.responsivity.mobile) {
       cameraController.getCamera().lowerRadiusLimit = 300;
@@ -98,6 +95,29 @@ export class MainIdleState {
     let orbitRotator: OrbitRotatorComponent = await spaceshipObject.registerComponent(OrbitRotatorComponent);
     orbitRotator.rotateAroundSelf = false;
     orbitRotator.rotateAroundTarget = true;
+    orbitRotator.speed = 0.005;
+    if ( environmentData.shipType === SpaceShipName.ASTEROID_MINER){
+      let cameraComponent : CameraController =await  spaceshipObject.registerComponent(FollowCameraController);
+
+      cameraComponent.getCamera().radius = 140;// The goal distance of camera from target
+      cameraComponent.getCamera().heightOffset = 50; // The goal height of camera above local origin (centre) of target
+      cameraComponent.getCamera().rotationOffset = 200;// The goal rotation of camera around local origin (centre) of target in x y plane
+      cameraComponent.getCamera().cameraRotation = new BABYLON.Vector2(10,50);
+    }
+
+    if ( environmentData.shipType != SpaceShipName.SPACE_STATION) {
+      orbitRotator.speed = 0.009;
+      await this.addShipJetFire(spaceshipObject, spaceships.get(environmentData.shipType).jetFirePosition);
+
+      if (spaceships.get(environmentData.shipType).jetFirePosition2) {
+        await this.addShipJetFire(spaceshipObject, spaceships.get(environmentData.shipType).jetFirePosition2);
+      }
+
+      if (spaceships.get(environmentData.shipType).jetFirePosition3) {
+        await this.addShipJetFire(spaceshipObject, spaceships.get(environmentData.shipType).jetFirePosition3);
+      }
+    }
+    
   }
 
   public async addPlanet() {
@@ -112,8 +132,20 @@ export class MainIdleState {
     orbitRotator.rotateAroundSelfAngle = 0.004;
     orbitRotator.rotateAroundSelf = true;
     orbitRotator.rotateAroundTarget = false;
-    await planetObject.registerComponent(RotationInterpolator);
-    await planetObject.registerComponent(RotationInterpolator);   
   
+  }
+  public async addShipJetFire(spaceShipObject: GameObject, emitPosition: BABYLON.Vector3) {
+    const particles: ParticlesComponent = await spaceShipObject.registerComponent(ParticlesComponent);
+
+    particles.particlesCapacity = 60;
+    particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/blue_flame.jpg", this.getWorld().getScene());
+    particles.minSize = 0.01;
+    particles.maxSize = 2;
+    particles.minEmitPower = 0.01;
+    particles.maxEmitPower = 0.04;
+    particles.direction1 = new BABYLON.Vector3(0, -0.2, -1);
+    particles.direction2 = new BABYLON.Vector3(0, -0.2, -1);
+    particles.minEmitBox = emitPosition;
+    particles.maxEmitBox = emitPosition;
   }
 }

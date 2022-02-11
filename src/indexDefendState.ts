@@ -1,10 +1,9 @@
-import { MainIdleState } from "./MainIdleState"
+import { MainDefendState } from "./MainDefendState"
 import idleStateEnvironmentDataExample from "./MockData/idleStateEnvironmentDataExample";
 const view = document.getElementById("view") as HTMLCanvasElement
-let main = new MainIdleState(view); 
+let main = new MainDefendState(view); 
 
 function onReady() {
-  console.log("is ready Idle State Usecase");
   document.getElementById("loader").style.display = "none";
   
   document.getElementById("view").style.display = "block";

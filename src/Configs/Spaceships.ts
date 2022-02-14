@@ -258,8 +258,8 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
   [SpaceShipName.SPACE_STATION, {
     name: SpaceShipName.SPACE_STATION,
     path: "space-station/",
-    fileName:"Space_Station.glb",
-    textureName:"Space_Station_BaseColor.jpg",
+    fileName:"Spacestation.glb",
+    textureName:"Spacestation_BaseColor_1k.jpg",
     laserPosition: BABYLON.Vector3.Zero(),
     missilePosition: BABYLON.Vector3.Zero(),
     dronesPosition: new BABYLON.Vector3(0, 20, 0),
@@ -267,7 +267,7 @@ const spaceships = new Map<SpaceShipName, SpaceShip>([
     jetFirePosition2: null,
     jetFirePosition3: null,
     missileName: MissileName.MISSILE01,
-    scale: 200,
+    scale: 60,
   }],
 ]);
 

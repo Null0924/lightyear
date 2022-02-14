@@ -6,7 +6,7 @@ import { Config } from "./Config";
 import spaceships from "./Configs/Spaceships";
 import { EnvironmentData } from "./Types/EnvironmentData";
 import { LightSpeedComponent } from "./Components/World/LightSpeedComponent";
-export class WarpStateMain {
+export class MainWarpState {
   private world;
   private view;
   private started;

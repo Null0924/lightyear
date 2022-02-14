@@ -1,8 +1,8 @@
-import { WarpStateMain } from "./WarpStateMain";
+import { MainWarpState } from "./MainWarpState";
 import environmentDataExample from "./MockData/WarpEnvironmentDataExample";
 
 const view = document.getElementById("view") as HTMLCanvasElement
-let main = new WarpStateMain(view);
+let main = new MainWarpState(view);
 
 function onReady() {
 

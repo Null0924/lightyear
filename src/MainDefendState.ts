@@ -10,6 +10,7 @@ import { RotationInterpolator } from "./Components/Ship/RotationInterpolator";
 import { OrbitRotatorComponent } from "./Components/Ship/OrbitRotatorComponent";
 import { CameraAnimator } from "./Components/Animators/CameraAnimator";
 import { SpaceShipName } from "./Configs/SpaceShipName";
+import { FollowOrbitCameraComponent } from "./Components/Camera/FollowOrbitCameraComponent";
 
 export class MainDefendState {
   private world;
@@ -44,8 +45,10 @@ export class MainDefendState {
 
   public setEnvironmentData = async (environmentDataList: Array<IdleStateEnvironmentData>) => {
     await this.addPlanet();
+    let followCameraFirstShip = true;
     for (let environmentData of environmentDataList) {
-      await this.addSpaceship(environmentData);
+      await this.addSpaceship(environmentData,followCameraFirstShip);
+      followCameraFirstShip = false;
     }
     this.onReady();
   }
@@ -79,7 +82,7 @@ export class MainDefendState {
     BABYLON.Engine.audioEngine.useCustomUnlockedButton = true;
   }
 
-  private async addSpaceship(environmentData: IdleStateEnvironmentData, position: BABYLON.Vector3 = null) {
+  private async addSpaceship(environmentData: IdleStateEnvironmentData, hasFollowCamera: Boolean = false) {
 
     const spaceshipObject: GameObject = new GameObject(environmentData.shipId, this.world);
 
@@ -96,13 +99,9 @@ export class MainDefendState {
     orbitRotator.rotateAroundSelf = false;
     orbitRotator.rotateAroundTarget = true;
     orbitRotator.speed = 0.005;
-    if ( environmentData.shipType === SpaceShipName.ASTEROID_MINER){
-      let cameraComponent : CameraController =await  spaceshipObject.registerComponent(FollowCameraController);
 
-      cameraComponent.getCamera().radius = 140;// The goal distance of camera from target
-      cameraComponent.getCamera().heightOffset = 50; // The goal height of camera above local origin (centre) of target
-      cameraComponent.getCamera().rotationOffset = 200;// The goal rotation of camera around local origin (centre) of target in x y plane
-      cameraComponent.getCamera().cameraRotation = new BABYLON.Vector2(10,50);
+    if (hasFollowCamera){
+      await  spaceshipObject.registerComponent(FollowOrbitCameraComponent);  
     }
 
     if ( environmentData.shipType != SpaceShipName.SPACE_STATION) {
@@ -117,7 +116,6 @@ export class MainDefendState {
         await this.addShipJetFire(spaceshipObject, spaceships.get(environmentData.shipType).jetFirePosition3);
       }
     }
-    
   }
 
   public async addPlanet() {
@@ -137,14 +135,14 @@ export class MainDefendState {
   public async addShipJetFire(spaceShipObject: GameObject, emitPosition: BABYLON.Vector3) {
     const particles: ParticlesComponent = await spaceShipObject.registerComponent(ParticlesComponent);
 
-    particles.particlesCapacity = 60;
+    particles.particlesCapacity = 50;
     particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/blue_flame.jpg", this.getWorld().getScene());
     particles.minSize = 0.01;
-    particles.maxSize = 2;
+    particles.maxSize = 3;
     particles.minEmitPower = 0.01;
-    particles.maxEmitPower = 0.04;
-    particles.direction1 = new BABYLON.Vector3(0, -0.2, -1);
-    particles.direction2 = new BABYLON.Vector3(0, -0.2, -1);
+    particles.maxEmitPower = 0.02;
+    particles.direction1 = new BABYLON.Vector3(0, -0.2, -1.5);
+    particles.direction2 = new BABYLON.Vector3(0, -0.2, -1.5);
     particles.minEmitBox = emitPosition;
     particles.maxEmitBox = emitPosition;
   }

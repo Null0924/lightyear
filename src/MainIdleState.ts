@@ -113,6 +113,5 @@ export class MainIdleState {
     orbitRotator.rotateAroundTarget = false;
     await planetObject.registerComponent(RotationInterpolator);
     await planetObject.registerComponent(RotationInterpolator);   
-  
   }
 }

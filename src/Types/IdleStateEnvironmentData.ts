@@ -7,6 +7,3 @@ export type IdleStateEnvironmentData = {
   y: number,
   z: number
 }
-
-
-

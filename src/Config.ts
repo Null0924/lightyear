@@ -2,6 +2,7 @@ export const Config = {
   paths : {
     models: "https://lightyear-game.vercel.app/assets/models/",
     missiles : "https://lightyear-game.vercel.app/assets/models/missles/",
+    localModels : "assets/models/",
     textures: "assets/textures/",
     guiLayouts: "assets/guiLayouts/",
     audio: {

@@ -1,16 +1,17 @@
 import {
     GameObject, World, MeshComponent,
-    LightComponent, CameraController, EngineType, XmlGUIComponent, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent, SoundComponent
+    LightComponent, CameraController, EngineType, XmlGUIComponent, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent, SoundComponent, FollowCameraController
   } from "@ludum_studios/brix-core";
 import { Config } from "./Config";
 import spaceships from "./Configs/Spaceships";
 import { SkyboxAnimator } from "./Components/Animators/SkyboxAnimator";
 import { IdleStateEnvironmentData } from "./Types/idleStateEnvironmentData";
-import { RotationInterpolator } from "./Components/Ship/RotationInterpolator";
 import { OrbitRotatorComponent } from "./Components/Ship/OrbitRotatorComponent";
 import { CameraAnimator } from "./Components/Animators/CameraAnimator";
+import { SpaceShipName } from "./Configs/SpaceShipName";
+import { FollowOrbitCameraComponent } from "./Components/Camera/FollowOrbitCameraComponent";
 
-export class MainIdleState {
+export class MainDefendState {
   private world;
   private view;
   private started;
@@ -43,8 +44,10 @@ export class MainIdleState {
 
   public setEnvironmentData = async (environmentDataList: Array<IdleStateEnvironmentData>) => {
     await this.addPlanet();
+    let followCameraFirstShip = true;
     for (let environmentData of environmentDataList) {
-      await this.addSpaceship(environmentData);
+      await this.addSpaceship(environmentData,followCameraFirstShip);
+      followCameraFirstShip = false;
     }
     this.onReady();
   }
@@ -59,10 +62,7 @@ export class MainIdleState {
     await this.world.init(true, true);
 
     const cameraController: CameraController = await this.world.registerComponent(ArcRotateCameraController);
-    cameraController.position = new BABYLON.Vector3(0, 350, 0);
-    cameraController.getCamera().lockedTarget = BABYLON.Vector3.Zero();
-    cameraController.getCamera().upperRadiusLimit = 400;
-    cameraController.getCamera().lowerRadiusLimit = 200;
+    cameraController.position = new BABYLON.Vector3(0, 150, 0);
 
     if(windowWidth < Config.responsivity.mobile) {
       cameraController.getCamera().lowerRadiusLimit = 300;
@@ -75,17 +75,16 @@ export class MainIdleState {
     cubeSkyboxComponent.texturePath = Config.paths.textures + "skybox1/skybox1"; 
     
     await this.world.registerComponent(SkyboxAnimator);
-
     await this.world.registerComponent(CameraAnimator);
 
     BABYLON.Engine.audioEngine.useCustomUnlockedButton = true;
   }
 
-  private async addSpaceship(environmentData: IdleStateEnvironmentData, position: BABYLON.Vector3 = null) {
+  private async addSpaceship(environmentData: IdleStateEnvironmentData, hasFollowCamera: Boolean = false) {
 
     const spaceshipObject: GameObject = new GameObject(environmentData.shipId, this.world);
-
     const meshComponent: MeshComponent = await spaceshipObject.registerComponent(MeshComponent);
+    
     await meshComponent.loadAsync(Config.paths.models + spaceships.get(environmentData.shipType).path, spaceships.get(environmentData.shipType).fileName); 
 
     meshComponent.get().material.subMaterials[0].albedoTexture = new BABYLON.Texture(Config.paths.models + spaceships.get(environmentData.shipType).path + spaceships.get(environmentData.shipType).textureName, this.world.getScene(), false, false);
@@ -95,11 +94,32 @@ export class MainIdleState {
     meshComponent.position = new BABYLON.Vector3(environmentData.x, environmentData.y, environmentData.z);
 
     let orbitRotator: OrbitRotatorComponent = await spaceshipObject.registerComponent(OrbitRotatorComponent);
+    
     orbitRotator.rotateAroundSelf = false;
     orbitRotator.rotateAroundTarget = true;
+    orbitRotator.speed = 0.005;
+
+    if (hasFollowCamera){
+      await  spaceshipObject.registerComponent(FollowOrbitCameraComponent);  
+    }
+
+    if ( environmentData.shipType != SpaceShipName.SPACE_STATION) {
+
+      orbitRotator.speed = 0.009;
+      await this.addShipJetFire(spaceshipObject, spaceships.get(environmentData.shipType).jetFirePosition);
+
+      if (spaceships.get(environmentData.shipType).jetFirePosition2) {
+        await this.addShipJetFire(spaceshipObject, spaceships.get(environmentData.shipType).jetFirePosition2);
+      }
+
+      if (spaceships.get(environmentData.shipType).jetFirePosition3) {
+        await this.addShipJetFire(spaceshipObject, spaceships.get(environmentData.shipType).jetFirePosition3);
+      }
+    }
   }
 
   public async addPlanet() {
+
     const planetObject: GameObject = new GameObject('planet', this.world);
 
     const meshComponent: MeshComponent = await planetObject.registerComponent(MeshComponent);
@@ -111,7 +131,21 @@ export class MainIdleState {
     orbitRotator.rotateAroundSelfAngle = 0.004;
     orbitRotator.rotateAroundSelf = true;
     orbitRotator.rotateAroundTarget = false;
-    await planetObject.registerComponent(RotationInterpolator);
-    await planetObject.registerComponent(RotationInterpolator);   
+  }
+
+  public async addShipJetFire(spaceShipObject: GameObject, emitPosition: BABYLON.Vector3) {
+    const particles: ParticlesComponent = await spaceShipObject.registerComponent(ParticlesComponent);
+
+    particles.particlesCapacity = 50;
+    particles.particleTexture = new BABYLON.Texture(Config.paths.textures + "particles/blue_flame.jpg", this.getWorld().getScene());
+    particles.minSize = 0.01;
+    particles.maxSize = 3;
+    particles.minEmitPower = 0.01;
+    particles.maxEmitPower = 0.02;
+    
+    particles.direction1 = new BABYLON.Vector3(0, -0.2, -1.5);
+    particles.direction2 = new BABYLON.Vector3(0, -0.2, -1.5);
+    particles.minEmitBox = emitPosition;
+    particles.maxEmitBox = emitPosition;
   }
 }

@@ -20,7 +20,6 @@ window["onAttack"] = function(attackData) {
 
 window.onmessage = function(event) {
   console.log(event);
-  // main.setAttackTurn(event.data);
 };
 
 (async function() {

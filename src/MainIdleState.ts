@@ -4,7 +4,6 @@ import {
   } from "@ludum_studios/brix-core";
 import { Config } from "./Config";
 import spaceships from "./Configs/Spaceships";
-import { SpaceShipName } from "./Configs/SpaceShipName";
 import { SkyboxAnimator } from "./Components/Animators/SkyboxAnimator";
 import { IdleStateEnvironmentData } from "./Types/idleStateEnvironmentData";
 import { RotationInterpolator } from "./Components/Ship/RotationInterpolator";

@@ -8,12 +8,10 @@ function onReady() {
   
   document.getElementById("view").style.display = "block";
   main.getWorld().getEngine().resize();
-  //main.setAttackTurn(attackDataExample);
 }
 
 window.onmessage = function(event) {
   console.log(event);
-  // main.setAttackTurn(event.data);
 };
 
 (async function() {

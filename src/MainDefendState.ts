@@ -6,7 +6,6 @@ import { Config } from "./Config";
 import spaceships from "./Configs/Spaceships";
 import { SkyboxAnimator } from "./Components/Animators/SkyboxAnimator";
 import { IdleStateEnvironmentData } from "./Types/idleStateEnvironmentData";
-import { RotationInterpolator } from "./Components/Ship/RotationInterpolator";
 import { OrbitRotatorComponent } from "./Components/Ship/OrbitRotatorComponent";
 import { CameraAnimator } from "./Components/Animators/CameraAnimator";
 import { SpaceShipName } from "./Configs/SpaceShipName";
@@ -76,7 +75,6 @@ export class MainDefendState {
     cubeSkyboxComponent.texturePath = Config.paths.textures + "skybox1/skybox1"; 
     
     await this.world.registerComponent(SkyboxAnimator);
-
     await this.world.registerComponent(CameraAnimator);
 
     BABYLON.Engine.audioEngine.useCustomUnlockedButton = true;
@@ -85,8 +83,8 @@ export class MainDefendState {
   private async addSpaceship(environmentData: IdleStateEnvironmentData, hasFollowCamera: Boolean = false) {
 
     const spaceshipObject: GameObject = new GameObject(environmentData.shipId, this.world);
-
     const meshComponent: MeshComponent = await spaceshipObject.registerComponent(MeshComponent);
+    
     await meshComponent.loadAsync(Config.paths.models + spaceships.get(environmentData.shipType).path, spaceships.get(environmentData.shipType).fileName); 
 
     meshComponent.get().material.subMaterials[0].albedoTexture = new BABYLON.Texture(Config.paths.models + spaceships.get(environmentData.shipType).path + spaceships.get(environmentData.shipType).textureName, this.world.getScene(), false, false);
@@ -96,6 +94,7 @@ export class MainDefendState {
     meshComponent.position = new BABYLON.Vector3(environmentData.x, environmentData.y, environmentData.z);
 
     let orbitRotator: OrbitRotatorComponent = await spaceshipObject.registerComponent(OrbitRotatorComponent);
+    
     orbitRotator.rotateAroundSelf = false;
     orbitRotator.rotateAroundTarget = true;
     orbitRotator.speed = 0.005;
@@ -105,6 +104,7 @@ export class MainDefendState {
     }
 
     if ( environmentData.shipType != SpaceShipName.SPACE_STATION) {
+
       orbitRotator.speed = 0.009;
       await this.addShipJetFire(spaceshipObject, spaceships.get(environmentData.shipType).jetFirePosition);
 
@@ -119,6 +119,7 @@ export class MainDefendState {
   }
 
   public async addPlanet() {
+
     const planetObject: GameObject = new GameObject('planet', this.world);
 
     const meshComponent: MeshComponent = await planetObject.registerComponent(MeshComponent);
@@ -130,8 +131,8 @@ export class MainDefendState {
     orbitRotator.rotateAroundSelfAngle = 0.004;
     orbitRotator.rotateAroundSelf = true;
     orbitRotator.rotateAroundTarget = false;
-  
   }
+
   public async addShipJetFire(spaceShipObject: GameObject, emitPosition: BABYLON.Vector3) {
     const particles: ParticlesComponent = await spaceShipObject.registerComponent(ParticlesComponent);
 
@@ -141,6 +142,7 @@ export class MainDefendState {
     particles.maxSize = 3;
     particles.minEmitPower = 0.01;
     particles.maxEmitPower = 0.02;
+    
     particles.direction1 = new BABYLON.Vector3(0, -0.2, -1.5);
     particles.direction2 = new BABYLON.Vector3(0, -0.2, -1.5);
     particles.minEmitBox = emitPosition;

@@ -41,7 +41,7 @@ export class WarpStateMain {
     this.view.blur();
 
     const windowWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-
+    
     this.world = new World(this.view, EngineType.STANDARD, onReady);
     await this.world.init(true, true);
 
@@ -59,7 +59,6 @@ export class WarpStateMain {
     lightComponent.intensity = Config.lightIntensity;
 
     const lightSpeedComponent: LightSpeedComponent = await this.world.registerComponent(LightSpeedComponent);
-
   }
 
   private async addSpaceship(environmentData: EnvironmentData, position: BABYLON.Vector3 = null) {
@@ -83,10 +82,10 @@ export class WarpStateMain {
     if (spaceships.get(environmentData.shipType).jetFirePosition3) {
       await this.addShipJetFire(spaceShipObject, spaceships.get(environmentData.shipType).jetFirePosition3);
     }
-
   }
 
   public async addShipJetFire(spaceShipObject: GameObject, emitPosition: BABYLON.Vector3) {
+    
     const particles: ParticlesComponent = await spaceShipObject.registerComponent(ParticlesComponent);
 
     particles.particlesCapacity = 80;

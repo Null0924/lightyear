@@ -9,6 +9,8 @@ import { IdleStateEnvironmentData } from "./Types/idleStateEnvironmentData";
 import { RotationInterpolator } from "./Components/Ship/RotationInterpolator";
 import { OrbitRotatorComponent } from "./Components/Ship/OrbitRotatorComponent";
 import { CameraAnimator } from "./Components/Animators/CameraAnimator";
+import { FollowOrbitCameraComponent } from "./Components/Camera/FollowOrbitCameraComponent";
+import { SpaceShipName } from "./Configs/SpaceShipName";
 
 export class MainIdleState {
   private world;
@@ -43,8 +45,10 @@ export class MainIdleState {
 
   public setEnvironmentData = async (environmentDataList: Array<IdleStateEnvironmentData>) => {
     await this.addPlanet();
+    let followCameraFirstShip = true;
     for (let environmentData of environmentDataList) {
-      await this.addSpaceship(environmentData);
+      await this.addSpaceship(environmentData,null,followCameraFirstShip);
+      followCameraFirstShip = false;
     }
     this.onReady();
   }
@@ -57,6 +61,8 @@ export class MainIdleState {
 
     this.world = new World(this.view, EngineType.STANDARD, onReady);
     await this.world.init(true, true);
+
+    
 
     const cameraController: CameraController = await this.world.registerComponent(ArcRotateCameraController);
     cameraController.position = new BABYLON.Vector3(0, 350, 0);
@@ -81,7 +87,7 @@ export class MainIdleState {
     BABYLON.Engine.audioEngine.useCustomUnlockedButton = true;
   }
 
-  private async addSpaceship(environmentData: IdleStateEnvironmentData, position: BABYLON.Vector3 = null) {
+  private async addSpaceship(environmentData: IdleStateEnvironmentData, position: BABYLON.Vector3 = null, hasFollowCamera: Boolean = false) {
 
     const spaceshipObject: GameObject = new GameObject(environmentData.shipId, this.world);
 
@@ -94,9 +100,19 @@ export class MainIdleState {
 
     meshComponent.position = new BABYLON.Vector3(environmentData.x, environmentData.y, environmentData.z);
 
+    if(environmentData.shipType === SpaceShipName.SPACE_STATION){
+
+     // implement glow to yellow parts of texture
+
+    }
     let orbitRotator: OrbitRotatorComponent = await spaceshipObject.registerComponent(OrbitRotatorComponent);
     orbitRotator.rotateAroundSelf = false;
     orbitRotator.rotateAroundTarget = true;
+
+    if (hasFollowCamera){
+      await  spaceshipObject.registerComponent(FollowOrbitCameraComponent);  
+      (spaceshipObject.getComponentByType(FollowOrbitCameraComponent) as FollowOrbitCameraComponent).setCameraSpeed(0.008);
+    }
   }
 
   public async addPlanet() {

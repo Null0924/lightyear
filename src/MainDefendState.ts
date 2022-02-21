@@ -93,6 +93,12 @@ export class MainDefendState {
 
     meshComponent.position = new BABYLON.Vector3(environmentData.x, environmentData.y, environmentData.z);
 
+    if(environmentData.shipType === SpaceShipName.SPACE_STATION){
+      
+      // implement glow on yellow parts
+
+    }
+
     let orbitRotator: OrbitRotatorComponent = await spaceshipObject.registerComponent(OrbitRotatorComponent);
     
     orbitRotator.rotateAroundSelf = false;
@@ -100,7 +106,8 @@ export class MainDefendState {
     orbitRotator.speed = 0.005;
 
     if (hasFollowCamera){
-      await  spaceshipObject.registerComponent(FollowOrbitCameraComponent);  
+      const spaceshipCamera = await  spaceshipObject.registerComponent(FollowOrbitCameraComponent);  
+      (spaceshipCamera as FollowOrbitCameraComponent).setCameraSpeed(0.009);
     }
 
     if ( environmentData.shipType != SpaceShipName.SPACE_STATION) {

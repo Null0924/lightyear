@@ -79,11 +79,11 @@ export class Main {
 
 
     if(windowWidth < Config.responsivity.tablet) {
-      guiContainer.get().renderScale = 0.6;
+      guiContainer.getAdvanceTexture().renderScale = 0.6;
     }
 
     if(windowWidth < Config.responsivity.mobile) {
-      guiContainer.get().renderScale = 0.55;
+      guiContainer.getAdvanceTexture().renderScale = 0.55;
     }
 
    

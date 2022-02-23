@@ -10,16 +10,23 @@ import { OrbitRotatorComponent } from "./Components/Ship/OrbitRotatorComponent";
 import { CameraAnimator } from "./Components/Animators/CameraAnimator";
 import { SpaceShipName } from "./Configs/SpaceShipName";
 import { FollowOrbitCameraComponent } from "./Components/Camera/FollowOrbitCameraComponent";
+import defendState1EnvironmentDataExample from "./MockData/defendStateDataExample1";
+import defendState2EnvironmentDataExample from "./MockData/defendStateDataExample2";
+import defendState3EnvironmentDataExample from "./MockData/defendStateDataExample3";
 
 export class MainDefendState {
   private world;
   private view;
   private started;
   private onReady: Function;
+  private stateDataArray: Array<Array<IdleStateEnvironmentData>>;
+  private stateDataArrayIndex = 0;
 
   constructor(view) {
     this.view = view;
     this.started = false;
+    this.stateDataArray = [defendState1EnvironmentDataExample,defendState2EnvironmentDataExample,defendState3EnvironmentDataExample];
+    
   }
 
   public getWorld(): World {
@@ -40,6 +47,15 @@ export class MainDefendState {
 
     this.world.start();
     this.started = true;
+  }
+  public  refreshData = async () =>{
+    this.world.reset();
+    await this.setEnvironmentData(this.stateDataArray[this.stateDataArrayIndex]);
+    console.log(this.stateDataArrayIndex);
+    this.stateDataArrayIndex++;
+    if(this.stateDataArrayIndex > this.stateDataArray.length){
+      this.stateDataArrayIndex = 0;
+    }
   }
 
   public setEnvironmentData = async (environmentDataList: Array<IdleStateEnvironmentData>) => {

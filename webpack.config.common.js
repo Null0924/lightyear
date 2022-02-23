@@ -4,9 +4,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = {
   //entry: "./src/index.ts",  // Battle Scenario Mode
-  entry: "./src/indexIdleState.ts", // Idle Mode
+  //entry: "./src/indexIdleState.ts", // Idle Mode
   //entry: "./src/indexWarpState.ts", // Warp Mode
-  //entry: "./src/indexDefendState.ts", // Defend Mode
+  entry: "./src/indexDefendState.ts", // Defend Mode
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: '[name].[contenthash].js',

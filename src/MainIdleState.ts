@@ -42,7 +42,7 @@ export class MainIdleState {
     this.world.start();
     this.started = true;
   }
-  
+
   public  refreshData = async (data: Array<StateEnvironmentData>) =>{
     this.world.reset();
     await this.setEnvironmentData(data);
@@ -109,8 +109,10 @@ export class MainIdleState {
 
       meshComponent.get().material.subMaterials[0].emissiveTexture = new BABYLON.Texture(Config.paths.textures + "space-station-emission-texture.jpg", this.world.getScene(), false, false);
       meshComponent.get().material.subMaterials[0].emissiveColor = new BABYLON.Color3(1, 1, 1);
-      (this.world.getComponentByType(GlowLayerComponent) as GlowLayerComponent).includeOnly(meshComponent.get());
 
+    }
+    else{
+      meshComponent.get().material.subMaterials[0].emissiveColor = new BABYLON.Color3(0, 0, 0);
     }
     let orbitRotator: OrbitRotatorComponent = await spaceshipObject.registerComponent(OrbitRotatorComponent);
     orbitRotator.rotateAroundSelf = false;
@@ -129,7 +131,8 @@ export class MainIdleState {
     await meshComponent.loadAsync(Config.paths.localModels ,"planetMesh.glb");
     meshComponent.get().material.subMaterials[0].albedoTexture = new BABYLON.Texture(Config.paths.textures + "planets/earth-texture.jpg", this.world.getScene(), false, false);
     meshComponent.get().scaling = new BABYLON.Vector3(28,28,28);
-
+    meshComponent.get().material.subMaterials[0].emissiveColor = new BABYLON.Color3(0, 0, 0);
+    
     let orbitRotator: OrbitRotatorComponent = await planetObject.registerComponent(OrbitRotatorComponent);
     orbitRotator.rotateAroundSelfAngle = 0.004;
     orbitRotator.rotateAroundSelf = true;

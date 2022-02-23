@@ -1,5 +1,6 @@
 import { MainIdleState } from "./MainIdleState"
 import idleStateEnvironmentDataExample from "./MockData/idleStateEnvironmentDataExample";
+import { StateEnvironmentData } from "./Types/StateEnvironmentData";
 const view = document.getElementById("view") as HTMLCanvasElement
 let main = new MainIdleState(view); 
 
@@ -15,6 +16,10 @@ function onReady() {
 window.onmessage = function(event) {
   console.log(event);
   // main.setAttackTurn(event.data);
+};
+
+window["refreshData"] = function(data: Array<StateEnvironmentData>) {
+  main.refreshData(data);
 };
 
 (async function() {

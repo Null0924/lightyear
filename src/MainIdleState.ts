@@ -1,11 +1,11 @@
 import {
     GameObject, World, MeshComponent,
-    LightComponent, CameraController, EngineType, XmlGUIComponent, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent, SoundComponent
+    LightComponent, CameraController, EngineType, XmlGUIComponent, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent, SoundComponent, GlowLayerComponent
   } from "@ludum_studios/brix-core";
 import { Config } from "./Config";
 import spaceships from "./Configs/Spaceships";
 import { SkyboxAnimator } from "./Components/Animators/SkyboxAnimator";
-import { IdleStateEnvironmentData } from "./Types/idleStateEnvironmentData";
+import { StateEnvironmentData } from "./Types/StateEnvironmentData";
 import { RotationInterpolator } from "./Components/Ship/RotationInterpolator";
 import { OrbitRotatorComponent } from "./Components/Ship/OrbitRotatorComponent";
 import { CameraAnimator } from "./Components/Animators/CameraAnimator";
@@ -42,8 +42,13 @@ export class MainIdleState {
     this.world.start();
     this.started = true;
   }
+  
+  public  refreshData = async (data: Array<StateEnvironmentData>) =>{
+    this.world.reset();
+    await this.setEnvironmentData(data);
+  }
 
-  public setEnvironmentData = async (environmentDataList: Array<IdleStateEnvironmentData>) => {
+  public setEnvironmentData = async (environmentDataList: Array<StateEnvironmentData>) => {
     await this.addPlanet();
     let followCameraFirstShip = true;
     for (let environmentData of environmentDataList) {
@@ -81,13 +86,13 @@ export class MainIdleState {
     cubeSkyboxComponent.texturePath = Config.paths.textures + "skybox1/skybox1"; 
     
     await this.world.registerComponent(SkyboxAnimator);
-
     await this.world.registerComponent(CameraAnimator);
+    await this.world.registerComponent(GlowLayerComponent);
 
     BABYLON.Engine.audioEngine.useCustomUnlockedButton = true;
   }
 
-  private async addSpaceship(environmentData: IdleStateEnvironmentData, position: BABYLON.Vector3 = null, hasFollowCamera: Boolean = false) {
+  private async addSpaceship(environmentData: StateEnvironmentData, position: BABYLON.Vector3 = null, hasFollowCamera: Boolean = false) {
 
     const spaceshipObject: GameObject = new GameObject(environmentData.shipId, this.world);
 
@@ -100,9 +105,11 @@ export class MainIdleState {
 
     meshComponent.position = new BABYLON.Vector3(environmentData.x, environmentData.y, environmentData.z);
 
-    if(environmentData.shipType === SpaceShipName.SPACE_STATION){
+    if ( environmentData.shipType === SpaceShipName.SPACE_STATION ){
 
-     // implement glow to yellow parts of texture
+      meshComponent.get().material.subMaterials[0].emissiveTexture = new BABYLON.Texture(Config.paths.textures + "space-station-emission-texture.jpg", this.world.getScene(), false, false);
+      meshComponent.get().material.subMaterials[0].emissiveColor = new BABYLON.Color3(1, 1, 1);
+      (this.world.getComponentByType(GlowLayerComponent) as GlowLayerComponent).includeOnly(meshComponent.get());
 
     }
     let orbitRotator: OrbitRotatorComponent = await spaceshipObject.registerComponent(OrbitRotatorComponent);

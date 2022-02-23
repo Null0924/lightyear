@@ -1,7 +1,7 @@
 import { SpaceShipName } from "../Configs/SpaceShipName";
-import { IdleStateEnvironmentData } from "../Types/idleStateEnvironmentData";
+import { StateEnvironmentData } from "../Types/StateEnvironmentData";
 
-const idleStateEnvironmentDataExample : Array<IdleStateEnvironmentData> = [
+const idleStateEnvironmentDataExample : Array<StateEnvironmentData> = [
   {
     shipId: "1",
     shipType: SpaceShipName.ASTEROID_MINER,

@@ -1,11 +1,11 @@
 import {
     GameObject, World, MeshComponent,
-    LightComponent, CameraController, EngineType, XmlGUIComponent, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent, SoundComponent, FollowCameraController
+    LightComponent, CameraController, EngineType, GlowLayerComponent, ParticlesComponent, ArcRotateCameraController, HighlightLayerComponent, CubeSkyBoxComponent, GUIContainerComponent, HemisphericLightComponent, SoundComponent, FollowCameraController
   } from "@ludum_studios/brix-core";
 import { Config } from "./Config";
 import spaceships from "./Configs/Spaceships";
 import { SkyboxAnimator } from "./Components/Animators/SkyboxAnimator";
-import { IdleStateEnvironmentData } from "./Types/idleStateEnvironmentData";
+import { StateEnvironmentData } from "./Types/StateEnvironmentData";
 import { OrbitRotatorComponent } from "./Components/Ship/OrbitRotatorComponent";
 import { CameraAnimator } from "./Components/Animators/CameraAnimator";
 import { SpaceShipName } from "./Configs/SpaceShipName";
@@ -19,13 +19,10 @@ export class MainDefendState {
   private view;
   private started;
   private onReady: Function;
-  private stateDataArray: Array<Array<IdleStateEnvironmentData>>;
-  private stateDataArrayIndex = 0;
 
   constructor(view) {
     this.view = view;
     this.started = false;
-    this.stateDataArray = [defendState1EnvironmentDataExample,defendState2EnvironmentDataExample,defendState3EnvironmentDataExample];
     
   }
 
@@ -48,17 +45,12 @@ export class MainDefendState {
     this.world.start();
     this.started = true;
   }
-  public  refreshData = async () =>{
+  public  refreshData = async (data: Array<StateEnvironmentData>) =>{
     this.world.reset();
-    await this.setEnvironmentData(this.stateDataArray[this.stateDataArrayIndex]);
-    console.log(this.stateDataArrayIndex);
-    this.stateDataArrayIndex++;
-    if(this.stateDataArrayIndex > this.stateDataArray.length){
-      this.stateDataArrayIndex = 0;
-    }
+    await this.setEnvironmentData(data);
   }
 
-  public setEnvironmentData = async (environmentDataList: Array<IdleStateEnvironmentData>) => {
+  public setEnvironmentData = async (environmentDataList: Array<StateEnvironmentData>) => {
     await this.addPlanet();
     let followCameraFirstShip = true;
     for (let environmentData of environmentDataList) {
@@ -92,11 +84,13 @@ export class MainDefendState {
     
     await this.world.registerComponent(SkyboxAnimator);
     await this.world.registerComponent(CameraAnimator);
+    await this.world.registerComponent(GlowLayerComponent);
+
 
     BABYLON.Engine.audioEngine.useCustomUnlockedButton = true;
   }
 
-  private async addSpaceship(environmentData: IdleStateEnvironmentData, hasFollowCamera: Boolean = false) {
+  private async addSpaceship(environmentData: StateEnvironmentData, hasFollowCamera: Boolean = false) {
 
     const spaceshipObject: GameObject = new GameObject(environmentData.shipId, this.world);
     const meshComponent: MeshComponent = await spaceshipObject.registerComponent(MeshComponent);
@@ -109,12 +103,6 @@ export class MainDefendState {
 
     meshComponent.position = new BABYLON.Vector3(environmentData.x, environmentData.y, environmentData.z);
 
-    if(environmentData.shipType === SpaceShipName.SPACE_STATION){
-      
-      // implement glow on yellow parts
-
-    }
-
     let orbitRotator: OrbitRotatorComponent = await spaceshipObject.registerComponent(OrbitRotatorComponent);
     
     orbitRotator.rotateAroundSelf = false;
@@ -126,7 +114,13 @@ export class MainDefendState {
       (spaceshipCamera as FollowOrbitCameraComponent).setCameraSpeed(0.009);
     }
 
-    if ( environmentData.shipType != SpaceShipName.SPACE_STATION) {
+    if ( environmentData.shipType === SpaceShipName.SPACE_STATION ){
+
+      meshComponent.get().material.subMaterials[0].emissiveTexture = new BABYLON.Texture(Config.paths.textures + "space-station-emission-texture.jpg", this.world.getScene(), false, false);
+      meshComponent.get().material.subMaterials[0].emissiveColor = new BABYLON.Color3(1, 1, 1);
+      (this.world.getComponentByType(GlowLayerComponent) as GlowLayerComponent).includeOnly(meshComponent.get());
+
+    } else {
 
       orbitRotator.speed = 0.009;
       await this.addShipJetFire(spaceshipObject, spaceships.get(environmentData.shipType).jetFirePosition);

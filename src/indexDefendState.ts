@@ -1,5 +1,7 @@
 import { MainDefendState } from "./MainDefendState"
-import idleStateEnvironmentDataExample from "./MockData/idleStateEnvironmentDataExample";
+import defendStateEnvironmentDataExample from "./MockData/defendStateEnvironmentDataExample";
+import { StateEnvironmentData } from "./Types/StateEnvironmentData";
+
 const view = document.getElementById("view") as HTMLCanvasElement
 let main = new MainDefendState(view); 
 
@@ -14,7 +16,11 @@ window.onmessage = function(event) {
   console.log(event);
 };
 
+window["refreshData"] = function(data: Array<StateEnvironmentData>) {
+  main.refreshData(data);
+};
+
 (async function() {
   await main.setup(onReady);
-  await main.setEnvironmentData(idleStateEnvironmentDataExample);
+  await main.setEnvironmentData(defendStateEnvironmentDataExample);
 })();

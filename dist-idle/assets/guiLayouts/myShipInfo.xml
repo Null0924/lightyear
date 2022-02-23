@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<root>
+    <Rectangle id="shipInfo" background="#00111855"  width="1" height="60px" color="#4B6975" thickness="1" >
+        <StackPanel  top="10" width="1" height="1" >
+            <TextBlock left="20px" horizontalAlignment="Control.HORIZONTAL_ALIGNMENT_LEFT" id="shipName" height="1" text="Light Craft - Lv 1"  color="white" resizeToFit="true" fontSize="13"/>
+            <StackPanel left="20px" horizontalAlignment="Control.HORIZONTAL_ALIGNMENT_LEFT" width="1" height="20px" isVertical="false">
+                <TextBlock id="currentHealth" height="1" text="500" color="#4F904D" resizeToFit="true" fontSize="13"/>    
+                <TextBlock height="1" text=" / " color="white" resizeToFit="true" fontSize="13"/>
+                <TextBlock id="maxHealth" height="1" text="2000" color="white" resizeToFit="true" fontSize="13"/> 
+            </StackPanel>
+        </StackPanel>
+    </Rectangle>
+</root>

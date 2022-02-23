@@ -6,6 +6,7 @@ import { Config } from "./Config";
 import spaceships from "./Configs/Spaceships";
 import { EnvironmentData } from "./Types/EnvironmentData";
 import { LightSpeedComponent } from "./Components/World/LightSpeedComponent";
+import { StateEnvironmentData } from "./Types/StateEnvironmentData";
 export class MainWarpState {
   private world;
   private view;
@@ -61,7 +62,7 @@ export class MainWarpState {
     const lightSpeedComponent: LightSpeedComponent = await this.world.registerComponent(LightSpeedComponent);
   }
 
-  private async addSpaceship(environmentData: EnvironmentData, position: BABYLON.Vector3 = null) {
+  private async addSpaceship(environmentData: StateEnvironmentData, position: BABYLON.Vector3 = null) {
 
     const spaceShipObject: GameObject = new GameObject(environmentData.shipId, this.world);
 
@@ -100,7 +101,12 @@ export class MainWarpState {
     particles.maxEmitBox = emitPosition;
   }
 
-  public setEnvironmentData = async (environmentDataList: Array<EnvironmentData>) => {
+  public  refreshData = async (data: Array<StateEnvironmentData>) =>{
+    this.world.reset();
+    await this.setEnvironmentData(data);
+  }
+
+  public setEnvironmentData = async (environmentDataList: Array<StateEnvironmentData>) => {
 
     let i = 0;
     for (let environmentData of environmentDataList) {

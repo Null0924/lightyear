@@ -1,0 +1,416 @@
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+
+/*! .. */
+
+/*! ../.. */
+
+/*! ../../Base/Component */
+
+/*! ../../Base/Components/LightComponent */
+
+/*! ../../Base/Components/ShadowComponent */
+
+/*! ../../Base/Components/SkyBoxComponent */
+
+/*! ../../Enumerations/MeshType */
+
+/*! ../Base/Component */
+
+/*! ../Base/Components/CameraController */
+
+/*! ../Base/Components/GUIContainerComponent */
+
+/*! ../Camera/FreeCameraController */
+
+/*! ../Component */
+
+/*! ../Enumerations/CharacterController/CharacterControllerInput */
+
+/*! ../Enumerations/EngineType */
+
+/*! ../Enumerations/animations/KinematicCharacterAnimations */
+
+/*! ../Enumerations/keyboard/EventImpact */
+
+/*! ../Enumerations/keyboard/EventType */
+
+/*! ../Enumerations/keyboard/TriggerType */
+
+/*! ../Events/EventController */
+
+/*! ../Meshes/MeshComponent */
+
+/*! ../Rendable/Lights/SpotLightComponent */
+
+/*! ../Rendable/Meshes/MeshComponent */
+
+/*! ./Abstract/CharacterComponent */
+
+/*! ./Animation/AnimationController */
+
+/*! ./Base/Component */
+
+/*! ./Base/ComponentHolder */
+
+/*! ./Base/Components/CameraController */
+
+/*! ./Base/Components/GUIContainerComponent */
+
+/*! ./Base/Components/LightComponent */
+
+/*! ./Base/Components/ShadowComponent */
+
+/*! ./Base/Components/SkyBoxComponent */
+
+/*! ./Base/Components/SoundComponent */
+
+/*! ./Base/GameObject */
+
+/*! ./Base/World */
+
+/*! ./BrixConfig */
+
+/*! ./Camera/ArcRotateCameraController */
+
+/*! ./Camera/FollowCameraController */
+
+/*! ./Camera/FreeCameraController */
+
+/*! ./Character/Abstract/AIController */
+
+/*! ./Character/Abstract/CharacterComponent */
+
+/*! ./Character/CharacterController */
+
+/*! ./Character/KinematicCharacterComponent */
+
+/*! ./ComponentHolder */
+
+/*! ./Editor/AnimationEditorComponent */
+
+/*! ./Editor/CameraEditorComponent */
+
+/*! ./Editor/LightEditorComponent */
+
+/*! ./Editor/MaterialEditorComponent */
+
+/*! ./Enumerations/CharacterController/CharacterControllerInput */
+
+/*! ./Enumerations/EngineType */
+
+/*! ./Enumerations/MeshType */
+
+/*! ./Enumerations/Network/NetworkComponentType */
+
+/*! ./Enumerations/Network/NetworkEvent */
+
+/*! ./Enumerations/animations/KinematicCharacterAnimations */
+
+/*! ./Enumerations/animations/NavigatorAnimations */
+
+/*! ./Enumerations/keyboard/EventImpact */
+
+/*! ./Enumerations/keyboard/EventType */
+
+/*! ./Enumerations/keyboard/TriggerType */
+
+/*! ./EventController */
+
+/*! ./Events/EventController */
+
+/*! ./Events/InputController */
+
+/*! ./GUI/XmlGUIComponent */
+
+/*! ./MeshComponent */
+
+/*! ./PostProcesses/DefaultPipelineComponent */
+
+/*! ./PostProcesses/FxaaPostProcessComponent */
+
+/*! ./PostProcesses/GlowLayerComponent */
+
+/*! ./PostProcesses/HighlightLayerComponent */
+
+/*! ./PostProcesses/VolumeScatteringPostProcessComponent */
+
+/*! ./Rendable/Lights/DirectionalLightComponent */
+
+/*! ./Rendable/Lights/FollowLight */
+
+/*! ./Rendable/Lights/HemisphericLightComponent */
+
+/*! ./Rendable/Lights/SpotLightComponent */
+
+/*! ./Rendable/MeshBuilders/SetShapesComponent */
+
+/*! ./Rendable/Meshes/CompoundMeshComponent */
+
+/*! ./Rendable/Meshes/MeshComponent */
+
+/*! ./Rendable/Particles/ParticlesComponent */
+
+/*! ./Rendable/Shadows/CascadedShadowGeneratorComponent */
+
+/*! ./Rendable/Shadows/ShadowGeneratorComponent */
+
+/*! ./Rendable/Skyboxes/CubeSkyBoxComponent */
+
+/*! ./Rendable/Skyboxes/GeneratedSkyboxComponent */
+
+/*! ./SpotLightComponent */
+
+/*! ./Utilities/InspectorComponent */
+
+/*! babylonjs */
+
+/*! babylonjs-loaders */
+
+/*! babylonjs-materials */
+
+/*! no static exports found */
+
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+
+/*!***************************!*\
+  !*** ./src/Base/World.ts ***!
+  \***************************/
+
+/*!***************************!*\
+  !*** ./src/BrixConfig.ts ***!
+  \***************************/
+
+/*!****************************!*\
+  !*** external "babylonjs" ***!
+  \****************************/
+
+/*!*******************************!*\
+  !*** ./src/Base/Component.ts ***!
+  \*******************************/
+
+/*!********************************!*\
+  !*** ./src/Base/GameObject.ts ***!
+  \********************************/
+
+/*!************************************!*\
+  !*** ./src/GUI/XmlGUIComponent.ts ***!
+  \************************************/
+
+/*!************************************!*\
+  !*** external "babylonjs-loaders" ***!
+  \************************************/
+
+/*!*************************************!*\
+  !*** ./src/Base/ComponentHolder.ts ***!
+  \*************************************/
+
+/*!**************************************!*\
+  !*** ./src/Enumerations/MeshType.ts ***!
+  \**************************************/
+
+/*!**************************************!*\
+  !*** external "babylonjs-materials" ***!
+  \**************************************/
+
+/*!***************************************!*\
+  !*** ./src/Events/EventController.ts ***!
+  \***************************************/
+
+/*!***************************************!*\
+  !*** ./src/Events/InputController.ts ***!
+  \***************************************/
+
+/*!****************************************!*\
+  !*** ./src/Enumerations/EngineType.ts ***!
+  \****************************************/
+
+/*!********************************************!*\
+  !*** ./src/Camera/FreeCameraController.ts ***!
+  \********************************************/
+
+/*!********************************************!*\
+  !*** ./src/Editor/LightEditorComponent.ts ***!
+  \********************************************/
+
+/*!********************************************!*\
+  !*** ./src/Rendable/Lights/FollowLight.ts ***!
+  \********************************************/
+
+/*!*********************************************!*\
+  !*** ./src/Editor/CameraEditorComponent.ts ***!
+  \*********************************************/
+
+/*!*********************************************!*\
+  !*** ./src/Utilities/InspectorComponent.ts ***!
+  \*********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/Animation/AnimationController.ts ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/Camera/FollowCameraController.ts ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/Character/CharacterController.ts ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./src/Rendable/Meshes/MeshComponent.ts ***!
+  \**********************************************/
+
+/*!***********************************************!*\
+  !*** ./src/Base/Components/LightComponent.ts ***!
+  \***********************************************/
+
+/*!***********************************************!*\
+  !*** ./src/Base/Components/SoundComponent.ts ***!
+  \***********************************************/
+
+/*!***********************************************!*\
+  !*** ./src/Editor/MaterialEditorComponent.ts ***!
+  \***********************************************/
+
+/*!************************************************!*\
+  !*** ./src/Base/Components/ShadowComponent.ts ***!
+  \************************************************/
+
+/*!************************************************!*\
+  !*** ./src/Base/Components/SkyBoxComponent.ts ***!
+  \************************************************/
+
+/*!************************************************!*\
+  !*** ./src/Character/Abstract/AIController.ts ***!
+  \************************************************/
+
+/*!************************************************!*\
+  !*** ./src/Editor/AnimationEditorComponent.ts ***!
+  \************************************************/
+
+/*!************************************************!*\
+  !*** ./src/Enumerations/keyboard/EventType.ts ***!
+  \************************************************/
+
+/*!*************************************************!*\
+  !*** ./src/Base/Components/CameraController.ts ***!
+  \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./src/Camera/ArcRotateCameraController.ts ***!
+  \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./src/PostProcesses/GlowLayerComponent.ts ***!
+  \*************************************************/
+
+/*!**************************************************!*\
+  !*** ./src/Enumerations/Network/NetworkEvent.ts ***!
+  \**************************************************/
+
+/*!**************************************************!*\
+  !*** ./src/Enumerations/keyboard/EventImpact.ts ***!
+  \**************************************************/
+
+/*!**************************************************!*\
+  !*** ./src/Enumerations/keyboard/TriggerType.ts ***!
+  \**************************************************/
+
+/*!***************************************************!*\
+  !*** ./src/Rendable/Lights/SpotLightComponent.ts ***!
+  \***************************************************/
+
+/*!******************************************************!*\
+  !*** ./src/Base/Components/GUIContainerComponent.ts ***!
+  \******************************************************/
+
+/*!******************************************************!*\
+  !*** ./src/Character/Abstract/CharacterComponent.ts ***!
+  \******************************************************/
+
+/*!******************************************************!*\
+  !*** ./src/Character/KinematicCharacterComponent.ts ***!
+  \******************************************************/
+
+/*!******************************************************!*\
+  !*** ./src/PostProcesses/HighlightLayerComponent.ts ***!
+  \******************************************************/
+
+/*!******************************************************!*\
+  !*** ./src/Rendable/Meshes/CompoundMeshComponent.ts ***!
+  \******************************************************/
+
+/*!******************************************************!*\
+  !*** ./src/Rendable/Particles/ParticlesComponent.ts ***!
+  \******************************************************/
+
+/*!******************************************************!*\
+  !*** ./src/Rendable/Skyboxes/CubeSkyBoxComponent.ts ***!
+  \******************************************************/
+
+/*!*******************************************************!*\
+  !*** ./src/PostProcesses/DefaultPipelineComponent.ts ***!
+  \*******************************************************/
+
+/*!*******************************************************!*\
+  !*** ./src/PostProcesses/FxaaPostProcessComponent.ts ***!
+  \*******************************************************/
+
+/*!*********************************************************!*\
+  !*** ./src/Rendable/MeshBuilders/SetShapesComponent.ts ***!
+  \*********************************************************/
+
+/*!**********************************************************!*\
+  !*** ./src/Enumerations/Network/NetworkComponentType.ts ***!
+  \**********************************************************/
+
+/*!**********************************************************!*\
+  !*** ./src/Rendable/Lights/DirectionalLightComponent.ts ***!
+  \**********************************************************/
+
+/*!**********************************************************!*\
+  !*** ./src/Rendable/Lights/HemisphericLightComponent.ts ***!
+  \**********************************************************/
+
+/*!**********************************************************!*\
+  !*** ./src/Rendable/Shadows/ShadowGeneratorComponent.ts ***!
+  \**********************************************************/
+
+/*!***********************************************************!*\
+  !*** ./src/Rendable/Skyboxes/GeneratedSkyboxComponent.ts ***!
+  \***********************************************************/
+
+/*!************************************************************!*\
+  !*** ./src/Enumerations/animations/NavigatorAnimations.ts ***!
+  \************************************************************/
+
+/*!******************************************************************!*\
+  !*** ./src/Rendable/Shadows/CascadedShadowGeneratorComponent.ts ***!
+  \******************************************************************/
+
+/*!*******************************************************************!*\
+  !*** ./src/PostProcesses/VolumeScatteringPostProcessComponent.ts ***!
+  \*******************************************************************/
+
+/*!*********************************************************************!*\
+  !*** ./src/Enumerations/animations/KinematicCharacterAnimations.ts ***!
+  \*********************************************************************/
+
+/*!**************************************************************************!*\
+  !*** ./src/Enumerations/CharacterController/CharacterControllerInput.ts ***!
+  \**************************************************************************/

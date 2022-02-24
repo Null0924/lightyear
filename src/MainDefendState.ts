@@ -13,6 +13,7 @@ import { FollowOrbitCameraComponent } from "./Components/Camera/FollowOrbitCamer
 import defendState1EnvironmentDataExample from "./MockData/defendStateDataExample1";
 import defendState2EnvironmentDataExample from "./MockData/defendStateDataExample2";
 import defendState3EnvironmentDataExample from "./MockData/defendStateDataExample3";
+import { MaterialLightAnimator } from "./Components/Animators/MaterialLightAnimator";
 
 export class MainDefendState {
   private world;
@@ -117,7 +118,9 @@ export class MainDefendState {
     if ( environmentData.shipType === SpaceShipName.SPACE_STATION ){
 
       meshComponent.get().material.subMaterials[0].emissiveTexture = new BABYLON.Texture(Config.paths.textures + "space-station-emission-texture.jpg", this.world.getScene(), false, false);
-      meshComponent.get().material.subMaterials[0].emissiveColor = new BABYLON.Color3(1, 1, 1);
+      
+      let lightManager = await spaceshipObject.registerComponent(MaterialLightAnimator);
+      lightManager.flickerRate = Config.spacestationData.lightFlickerRate;
 
     } else {
       meshComponent.get().material.subMaterials[0].emissiveColor = new BABYLON.Color3(0, 0, 0);

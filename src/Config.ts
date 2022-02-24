@@ -43,5 +43,9 @@ export const Config = {
     zDistance: 100,
     yDistance: 50,
     speed: 5
+  },
+
+  spacestationData : {
+    lightFlickerRate: 0.1,  // from 0(off) to 1(on) , 0.5 means half a second off then half on, bigger the number, the more time the light stays on
   }
 }

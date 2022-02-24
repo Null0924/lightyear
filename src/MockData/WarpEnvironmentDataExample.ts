@@ -1,7 +1,7 @@
 import { SpaceShipName } from "../Configs/SpaceShipName";
 import { EnvironmentData } from "../Types/EnvironmentData";
 
-const environmentDataExample : Array<EnvironmentData> = [
+const warpEnvironmentDataExample : Array<EnvironmentData> = [
   {
     shipId: "1",
     shipType: SpaceShipName.ASTEROID_MINER,
@@ -48,4 +48,4 @@ const environmentDataExample : Array<EnvironmentData> = [
   },
 ]
 
-export default environmentDataExample;
+export default warpEnvironmentDataExample;

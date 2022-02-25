@@ -1,9 +1,9 @@
-import { Main } from "./Main"
+import { MainBattleState } from "./MainBattleState"
 import attackDataExample from "./MockData/AttackDataExample";
 import environmentDataExample from "./MockData/EnvironmentDataExample";
 
 const view = document.getElementById("view") as HTMLCanvasElement
-let main = new Main(view);
+let main = new MainBattleState(view);
 
 function onReady() {
   console.log("is ready");

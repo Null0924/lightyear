@@ -11,6 +11,7 @@ import { OrbitRotatorComponent } from "./Components/Ship/OrbitRotatorComponent";
 import { CameraAnimator } from "./Components/Animators/CameraAnimator";
 import { FollowOrbitCameraComponent } from "./Components/Camera/FollowOrbitCameraComponent";
 import { SpaceShipName } from "./Configs/SpaceShipName";
+import { MaterialLightAnimator } from "./Components/Animators/MaterialLightAnimator";
 
 export class MainIdleState {
   private world;
@@ -33,6 +34,10 @@ export class MainIdleState {
 
   public setCallbacks = (inputCallback, navigationEndCallback) => {
 
+  }
+  
+  public disposeEngine(){
+    (this.world as World).disposeEngine();
   }
 
   public async setup(onReady: Function) {
@@ -108,7 +113,9 @@ export class MainIdleState {
     if ( environmentData.shipType === SpaceShipName.SPACE_STATION ){
 
       meshComponent.get().material.subMaterials[0].emissiveTexture = new BABYLON.Texture(Config.paths.textures + "space-station-emission-texture.jpg", this.world.getScene(), false, false);
-      meshComponent.get().material.subMaterials[0].emissiveColor = new BABYLON.Color3(1, 1, 1);
+      let lightManager = await spaceshipObject.registerComponent(MaterialLightAnimator);
+      lightManager.nrOfSeconds = Config.spacestationData.nrOfSeconds;
+      lightManager.flickerRate = Config.spacestationData.lightFlickerRate;
 
     }
     else{

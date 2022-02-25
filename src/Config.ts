@@ -46,6 +46,8 @@ export const Config = {
   },
 
   spacestationData : {
-    lightFlickerRate: 0.1,  // from 0(off) to 1(on) , 0.5 means half a second off then half on, bigger the number, the more time the light stays on
+    lightFlickerRate: 0.5,  // %of time the light is on | from 0(off) to 1(on)
+    // for example 0.5 means half the nrOfSeconds given below, bigger the number, the more time the light stays on | min 0, max 1, default 0.5
+    nrOfSeconds:1,  // min 0, max 10  | default 1
   }
 }

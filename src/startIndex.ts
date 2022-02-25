@@ -1,4 +1,4 @@
-import { Main } from "./Main"
+import { MainBattleState } from "./MainBattleState"
 import attackDataExample from "./MockData/AttackDataExample";
 import environmentDataExample from "./MockData/EnvironmentDataExample";
 import { StateTypes } from "./Configs/StateTypes";
@@ -13,8 +13,13 @@ import warpEnvironmentDataExample from "./MockData/WarpEnvironmentDataExample";
 let main = null;
 
 async function init(stateType: StateTypes) {
+
   showLoader();
-  // manage old main TO DO
+
+  if (main){
+    main.disposeEngine();
+  }
+
   switch (stateType) {
     case StateTypes.IDLE:
 
@@ -36,7 +41,7 @@ async function init(stateType: StateTypes) {
       break;
     case StateTypes.BATTLE:
 
-      main = new Main(view);
+      main = new MainBattleState(view);
       await main.setup(onReady);
       await main.setEnvironmentData(environmentDataExample);
       break;
@@ -75,19 +80,19 @@ window["refreshData"] = function (data: Array<StateEnvironmentData>) {
 };
 
 (async function () {
-  await init(StateTypes.BATTLE);
+  await init(StateTypes.WARP);
 
-  // setTimeout(async () => {
-  //   await init(StateTypes.DEFEND);
+  setTimeout(async () => {
+    await init(StateTypes.IDLE);
 
-  //   setTimeout(async () => {
-  //     await init(StateTypes.WARP);
+    setTimeout(async () => {
+      await init(StateTypes.DEFEND);
 
-  //     setTimeout(async () => {
-  //       await init(StateTypes.BATTLE);
-  //       main.setAttackTurn(attackDataExample);
-  //     }, 3000);
-  //   }, 3000);
-  // }, 3000);
+      setTimeout(async () => {
+        await init(StateTypes.BATTLE);
+        main.setAttackTurn(attackDataExample);
+      }, 10000);
+    }, 10000);
+  }, 10000);
 
 })();

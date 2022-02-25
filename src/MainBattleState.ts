@@ -19,7 +19,7 @@ import { CameraData } from "./Types/CameraData";
 import { CameraAnimator } from "./Components/Animators/CameraAnimator";
 
 
-export class Main {
+export class MainBattleState {
   private world;
   private view;
   private started;
@@ -43,11 +43,20 @@ export class Main {
   }
 
   public async setup(onReady: Function) {
+  
     await this.setWorld(null);
+    console.log( this);
+    console.log( this.world);
+    console.log( this.getWorld());
+    console.log( this.getWorld());
     this.onReady = onReady;
 
     this.world.start();
     this.started = true;
+  }
+
+  public disposeEngine(){
+    (this.world as World).disposeEngine();
   }
 
   private async setWorld(onReady: Function) {
@@ -79,11 +88,11 @@ export class Main {
 
 
     if(windowWidth < Config.responsivity.tablet) {
-      guiContainer.getAdvanceTexture().renderScale = 0.6;
+      guiContainer.get().renderScale = 0.6;
     }
 
     if(windowWidth < Config.responsivity.mobile) {
-      guiContainer.getAdvanceTexture().renderScale = 0.55;
+      guiContainer.get().renderScale = 0.55;
     }
 
    

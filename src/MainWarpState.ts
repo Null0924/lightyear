@@ -26,6 +26,10 @@ export class MainWarpState {
     return this.started;
   }
 
+  public disposeEngine(){
+    (this.world as World).disposeEngine();
+  }
+  
   public setCallbacks = (inputCallback, navigationEndCallback) => {
   }
 

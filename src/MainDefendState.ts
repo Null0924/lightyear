@@ -27,6 +27,10 @@ export class MainDefendState {
     
   }
 
+  public disposeEngine(){
+    (this.world as World).disposeEngine();
+  }
+  
   public getWorld(): World {
     return this.world;
   }
@@ -120,6 +124,7 @@ export class MainDefendState {
       meshComponent.get().material.subMaterials[0].emissiveTexture = new BABYLON.Texture(Config.paths.textures + "space-station-emission-texture.jpg", this.world.getScene(), false, false);
       
       let lightManager = await spaceshipObject.registerComponent(MaterialLightAnimator);
+      lightManager.nrOfSeconds = Config.spacestationData.nrOfSeconds;
       lightManager.flickerRate = Config.spacestationData.lightFlickerRate;
 
     } else {
